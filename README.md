@@ -18,7 +18,7 @@ This script automates the process of setting up RGB curves for a basic color cor
 
 * Start this script in the _scripts_ module in the lighttable view. An _AutoLevels_ module will appear in the same panel.
 
-* Download the ONNX curve model [here](https://github.com/yellowdolphin/darktable-autolevels-module/releases/) or from the [RetroShine webpage](https://retroshine.eu/download/free_xcittiny_wa14.onnx)
+* Download the ONNX curve model [here](https://github.com/yellowdolphin/darktable-autolevels-module/releases/download/v1.0.0/free_xcittiny_wa14.onnx) or from the [RetroShine webpage](https://retroshine.eu/download/free_xcittiny_wa14.onnx)
 
 * Click the little file browser button to search for the downloaded .onnx file
 

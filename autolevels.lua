@@ -3,25 +3,28 @@ AutoLevels
 Calls autolevels to add an "rgb curve" instance with a baseline color correction
 
 AUTHOR
-Marius Wanko (marius.wanko@gmail.com)
+Marius Wanko (marius.wanko@outlook.de)
 
 INSTALLATION
 * copy this file in $CONFIGDIR/lua/ where CONFIGDIR is your darktable
   configuration directory
 * add the following line in the file $CONFIGDIR/luarc
   require "autolevels"
-* pip install autolevels onnxruntime
-  (see https://github.com/yellowdolphin/autolevels for instructions)
-* download curve model from https://retroshine.eu/download/free_xcittiny_wa14.onnx
+* pip install autolevels
+  (see https://github.com/yellowdolphin/darktable-autolevels-module for instructions)
+* download ONNX curve model from 
+  https://github.com/yellowdolphin/darktable-autolevels-module/releases/download/v1.0.0/free_xcittiny_wa14.onnx
+  or 
+  https://retroshine.eu/download/free_xcittiny_wa14.onnx
 
 USAGE
 * open the AutoLevels module
-* specify your downloaded model file
+* specify your downloaded .onnx file
 * select images
 * click "add AutoLevels curve"
 
 LICENSE
-GPLv2
+GPLv3
 
 ]]
 
