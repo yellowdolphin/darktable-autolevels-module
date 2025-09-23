@@ -73,7 +73,6 @@ script_data.restart = restart
 script_data.show = restart
 
 -- end of script_data
-dt.print_error("darktable.configuration.version: " .. dt.configuration.version)
 
 
 local widgets = {}
@@ -91,7 +90,7 @@ end
 local function run_autolevels(path, outsuffix, fn, model)
   local cmd_str = "autolevels --model "..model.." --folder "..path.." --outfolder "..path
     .." --outsuffix "..outsuffix.." --export darktable "..dt.configuration.version.." -- "..fn
-  dt.print_error("DEBUG cmd_str: "..cmd_str)
+  -- dt.print_error("DEBUG cmd_str: "..cmd_str)
   dt.control.execute(cmd_str)
 end
 
@@ -105,7 +104,6 @@ local function add_autolevels_curves()
     local quoted_fn = '"'..image.filename..'"'
     local quoted_path = '"'..image.path..'"'
     local quoted_outsuffix = get_autolevels_outsuffix(image.filename, image.sidecar)
-    dt.print_error("DEBUG outsuffix: "..quoted_outsuffix)
     run_autolevels(quoted_path, quoted_outsuffix, quoted_fn, quoted_model)
 
     -- Update the database from the written XMP file
@@ -140,8 +138,7 @@ local msg_calling_autolevels = _("calling autolevels...")
 widgets.model_path_label = dt.new_widget("section_label"){label = _("add model")}
 widgets.model_chooser_button = dt.new_widget("file_chooser_button"){
   title = _("select model file"),
-  tooltip = _("select your downloaded .onnx curve model file\n")
-    .. _("instructions") .. ": https://github.com/yellowdolphin/autolevels#darktable-lua-script",
+  tooltip = _("select your downloaded .onnx curve model file"),
   is_directory = false,
   changed_callback = function(_)
     local model_path = widgets.model_chooser_button.value
