@@ -180,7 +180,13 @@ widgets.help_button = dt.new_widget("button"){
   label = _("help"),
   tooltip = _("open help page"),
   clicked_callback = function(_)
-    local result = dsys.launch_default_app('https://github.com/yellowdolphin/autolevels')
+    local help_url = 'https://github.com/yellowdolphin/darktable-autolevels-module'
+    if du.check_os({"windows"}) then
+      help_url = 'start ' .. help_url
+    end
+    if dsys.launch_default_app(help_url) ~= 0 then
+      widgets.status.label = _("could not open default web browser")
+    end
   end
 }
 
