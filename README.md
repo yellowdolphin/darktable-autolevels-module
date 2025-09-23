@@ -33,7 +33,7 @@ You might notice that the _rgb curve_ instance created by AutoLevels is applied 
 Under the hood, the Lua script calls `autolevels` with the `--export darktable <version>` argument:
 
 ```
-autolevels --model ~/Downloads/free_xcittiny_wa14.onnx --export darktable 5.3.0 --outsuffix ".jpg.xmp" -- myimage.jpg
+autolevels --model ~/Downloads/free_xcittiny_wa14.onnx --export darktable 5.3.0 --outsuffix .jpg.xmp -- myimage.jpg
 ```
 
 AutoLevels reads the XMP sidecar file associated with each selected image (or duplicate). It is passed via the `--outsuffix` option. If the XMP file does not exist, AutoLevels will create a minimal one with the default auto-apply presets. The `--outsuffix` option is optional and prevents AutoLevels from creating an output image if its value ends with ".xmp".
@@ -52,7 +52,7 @@ On most Linux distros, Python is already pre-installed. For other operating syst
 pip install autolevels
 ```
 
-This will automatically install the following dependencies:
+This will automatically install AutoLevels and the following dependencies:
 
 - numpy
 - pillow
