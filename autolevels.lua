@@ -100,7 +100,8 @@ local function add_autolevels_curves()
   local images = dt.gui.action_images
   local quoted_model = '"'..widgets.model_chooser_button.value..'"'
   local num_added_curves = 0
-  for _, image in pairs(images) do
+  local fallback_used = false
+  for __, image in pairs(images) do
     local quoted_fn = '"'..image.filename..'"'
     local quoted_path = '"'..image.path..'"'
     local quoted_outsuffix = get_autolevels_outsuffix(image.filename, image.sidecar)
@@ -108,16 +109,30 @@ local function add_autolevels_curves()
 
     -- Update the database from the written XMP file
     local success = false
-    local success, _ = pcall(function()
-      image:apply_sidecar(image.sidecar)  -- requires darktable>=5.2.1, does not update database timestamps
+    success, __ = pcall(function()
+      image:apply_sidecar(image.sidecar)  -- requires darktable>=5.2, updates db.change_timestamp
     end)
-    --if not success then
-    --  image.delete(image)  -- needed to update thumbnail on import
-    --  pcall(function() dt.database.import(image.path..path_separator..image.filename) end)  -- crashes dt if not found
-    --end
-    
+    if not success then
+      fallback_used = true  -- fallback for older DT versions
+      image.delete(image)  -- needed to update thumbnail on import
+      pcall(function() dt.database.import(image.path..path_separator..image.filename) end)  -- crashes dt if not found
+    end
     num_added_curves = num_added_curves + 1
   end
+  if not fallback_used then
+    -- db.write_timestamp needs to be updated, which is compared with mtime on startup
+    dt.print_log("writing xmp files...")
+    local sele = dt.gui.selection(images)
+    dt.gui.action("lib/copy_history/write sidecar files", "", "", 1.000)  -- 0.2 ms / xmp
+    if #sele < #images then
+      dt.print("Don't change selection during processing!")
+      dt.print_log(#sele.."/"..#images.." images are still selected, trying again...")
+      sele = dt.gui.selection(images)
+      dt.gui.action("lib/copy_history/write sidecar files", "", "", 1.000)  -- 0.2 ms / xmp
+    end
+    dt.print_log("all xmp files updated")
+  end
+
   lock_status_update = true  --prevent selection-changed hook from overwriting this:
   widgets.status.label = num_added_curves .. _(" curve(s) added")
 end
