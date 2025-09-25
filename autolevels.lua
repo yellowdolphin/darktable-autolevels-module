@@ -90,7 +90,7 @@ end
 local function run_autolevels(path, outsuffix, fn, model)
   local cmd_str = "autolevels --model "..model.." --folder "..path.." --outfolder "..path
     .." --outsuffix "..outsuffix.." --export darktable "..dt.configuration.version.." -- "..fn
-  -- dt.print_error("DEBUG cmd_str: "..cmd_str)
+  -- dt.print_log("DEBUG cmd_str: "..cmd_str)
   dt.control.execute(cmd_str)
 end
 
@@ -99,25 +99,69 @@ local function add_autolevels_curves()
   
   local images = dt.gui.action_images
   local quoted_model = '"'..widgets.model_chooser_button.value..'"'
+
+  -- Form a batch for each unique (path, duplicate) pair (path, outsuffix)
+  local batches = {}
+  local function append_image(quoted_path, quoted_outsuffix, image)
+    local key = quoted_path .. "|" .. quoted_outsuffix  -- Combine into single string
+    batches[key] = batches[key] or {}
+    table.insert(batches[key], image)
+  end
+
+  local function split(str, delimiter)
+    if not str or str == "" then return {} end
+    local pattern = "([^" .. delimiter .. "]+)"
+    local result = {}
+    for match in str:gmatch(pattern) do
+        table.insert(result, match)
+    end
+    return result
+  end
+
+  local function get_path_outsuffix(key)
+    return split(key, '|')
+  end
+
+  for __, image in pairs(images) do
+    local quoted_outsuffix = get_autolevels_outsuffix(image.filename, image.sidecar)
+    local quoted_path = '"' .. image.path .. '"'
+    append_image(quoted_path, quoted_outsuffix, image)
+  end
+
   local num_added_curves = 0
   local fallback_used = false
-  for __, image in pairs(images) do
-    local quoted_fn = '"'..image.filename..'"'
-    local quoted_path = '"'..image.path..'"'
-    local quoted_outsuffix = get_autolevels_outsuffix(image.filename, image.sidecar)
-    run_autolevels(quoted_path, quoted_outsuffix, quoted_fn, quoted_model)
+  for key, batch_images in pairs(batches) do
+    -- no python-style unpacking!
+    local path_outsuffix = get_path_outsuffix(key)
+    local quoted_path = path_outsuffix[1]
+    local quoted_outsuffix = path_outsuffix[2]
 
-    -- Update the database from the written XMP file
-    local success = false
-    success, __ = pcall(function()
-      image:apply_sidecar(image.sidecar)  -- requires darktable>=5.2, updates db.change_timestamp
-    end)
-    if not success then
-      fallback_used = true  -- fallback for older DT versions
-      image.delete(image)  -- needed to update thumbnail on import
-      pcall(function() dt.database.import(image.path..path_separator..image.filename) end)  -- crashes dt if not found
+    -- dt.print_log("quoted_path: " .. quoted_path)
+    -- dt.print_log("quoted_outsuffix: " .. quoted_outsuffix)
+
+    local quoted_parts = {}
+    for __, image in pairs(batch_images) do
+      table.insert(quoted_parts, '"' .. image.filename .. '"')
     end
-    num_added_curves = num_added_curves + 1
+    local quoted_fns = table.concat(quoted_parts, ' ')
+    -- dt.print_log("quoted_fns:" .. quoted_fns)
+  
+    -- run autolevels with all images of the batch
+    run_autolevels(quoted_path, quoted_outsuffix, quoted_fns, quoted_model)
+
+    -- Update the database from the written XMP files
+    for __, image in pairs(batch_images) do
+      local success = false
+      success, __ = pcall(function()
+        image:apply_sidecar(image.sidecar)  -- requires darktable>=5.2, updates db.change_timestamp
+      end)
+      if not success then
+        fallback_used = true  -- fallback for older DT versions
+        image.delete(image)  -- needed to update thumbnail on import
+        pcall(function() dt.database.import(image.path..path_separator..image.filename) end)  -- crashes dt if not found
+      end
+      num_added_curves = num_added_curves + 1
+    end
   end
   if not fallback_used then
     -- db.write_timestamp needs to be updated, which is compared with mtime on startup
