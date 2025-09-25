@@ -97,14 +97,19 @@ end
 local function add_autolevels_curves()
   -- Add an rgbcurve from AutoLevels to each selected image
   
-  local images = dt.gui.action_images
+  local images = dt.gui.selection()
+  local selected_images = dt.gui.selection()
+  local processed_images = {}
   local quoted_model = '"'..widgets.model_chooser_button.value..'"'
   local num_added_curves = 0
   local fallback_used = false
-  for __, image in pairs(images) do
+  for i, image in ipairs(images) do
     local quoted_fn = '"'..image.filename..'"'
     local quoted_path = '"'..image.path..'"'
     local quoted_outsuffix = get_autolevels_outsuffix(image.filename, image.sidecar)
+    if widgets.stop_button.visible == false then
+      break
+    end
     run_autolevels(quoted_path, quoted_outsuffix, quoted_fn, quoted_model)
 
     -- Update the database from the written XMP file
@@ -118,23 +123,29 @@ local function add_autolevels_curves()
       pcall(function() dt.database.import(image.path..path_separator..image.filename) end)  -- crashes dt if not found
     end
     num_added_curves = num_added_curves + 1
+    processed_images[i] = image
+    selected_images[i] = nil
   end
   if not fallback_used then
     -- db.write_timestamp needs to be updated, which is compared with mtime on startup
     dt.print_log("writing xmp files...")
-    local sele = dt.gui.selection(images)
+    local sele = dt.gui.selection(processed_images)
     dt.gui.action("lib/copy_history/write sidecar files", "", "", 1.000)  -- 0.2 ms / xmp
-    if #sele < #images then
+    if #sele < #processed_images then
       dt.print("Don't change selection during processing!")
-      dt.print_log(#sele.."/"..#images.." images are still selected, trying again...")
-      sele = dt.gui.selection(images)
+      dt.print_log(#sele.."/"..#processed_images.." images are still selected, trying again...")
+      sele = dt.gui.selection(processed_images)
       dt.gui.action("lib/copy_history/write sidecar files", "", "", 1.000)  -- 0.2 ms / xmp
     end
     dt.print_log("all xmp files updated")
+    -- select any unprocessed images
+    dt.gui.selection(selected_images)
   end
 
   lock_status_update = true  --prevent selection-changed hook from overwriting this:
   widgets.status.label = num_added_curves .. _(" curve(s) added")
+  widgets.stop_button.visible = false
+  widgets.add_curve_button.visible = true
 end
 
 local function save_model_path()
@@ -146,6 +157,7 @@ end
 local msg_filetype_error = _("ERROR: selected file is not an ONNX file")
 local msg_missing_model = _("missing model path")
 local msg_calling_autolevels = _("calling autolevels...")
+local msg_stopping = _("stopping...")
 
 
 -- Add GUI lib
@@ -180,6 +192,8 @@ widgets.add_curve_button = dt.new_widget("button"){
   label = _("add AutoLevels curve"),
   tooltip = _('add rgb curve "AutoLevels" to selected images'),
   clicked_callback = function(_)
+    widgets.add_curve_button.visible = false
+    widgets.stop_button.visible = true
     local model_path = widgets.model_chooser_button.value
     if not model_path or #model_path == 0 then
       widgets.status.label = msg_missing_model
@@ -189,6 +203,18 @@ widgets.add_curve_button = dt.new_widget("button"){
     end
   end
 }
+
+-- Button "stop"
+widgets.stop_button = dt.new_widget("button"){
+  label = _("stop"),
+  tooltip = _('stop processing'),
+  clicked_callback = function(_)
+    widgets.status.label = msg_stopping
+    widgets.stop_button.visible = false
+    widgets.add_curve_button.visible = true
+  end
+}
+widgets.stop_button.visible = false
 
 -- Button "help"
 widgets.help_button = dt.new_widget("button"){
@@ -245,6 +271,7 @@ dt.register_lib(
     dt.new_widget("box"){ 
       orientation = "horizontal",
       widgets.add_curve_button,
+      widgets.stop_button,
       widgets.help_button,
     },
   }
