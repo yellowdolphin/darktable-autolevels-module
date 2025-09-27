@@ -99,6 +99,16 @@ local function run_autolevels(path, outsuffix, fn, model)
 end
 
 
+local function save_batch_size()
+  dt.preferences.write("autolevels", "batch_size", "integer", widgets.batch_size_slider.value)
+end
+
+
+local function get_batch_size()
+  return widgets.batch_size_slider.value
+end
+
+
 local function flatten_batches(batches, selection)
   -- Return a subset of batches encompassing selection
   -- selection: set-like table of batch keys
@@ -137,7 +147,7 @@ local function add_autolevels_curves()
   local quoted_model = ds.sanitize(widgets.model_chooser_button.value)
 
   -- Form a batch for each unique (path, duplicate) pair (path, outsuffix)
-  local batch_size = 5
+  local batch_size = get_batch_size()
   local batches = {}
   local selected_batches = {}
   local processed_batches = {}
@@ -262,9 +272,10 @@ local msg_calling_autolevels = _("calling autolevels...")
 local msg_stopping = _("stopping...")
 
 
--- Add GUI lib
+-- Add GUI lib elements
+
 -- Widget for model_path
-widgets.model_path_label = dt.new_widget("section_label"){label = _("add model")}
+widgets.model_path_label = dt.new_widget("label"){label = _("model"), halign = "start"}
 widgets.model_chooser_button = dt.new_widget("file_chooser_button"){
   title = _("select model file"),
   tooltip = _("select your downloaded .onnx curve model file"),
@@ -290,6 +301,20 @@ if dt.preferences.read("autolevels", "model_path", "string") then
 end
 
 
+-- Widget for batch_size
+widgets.batch_size_slider = dt.new_widget("slider"){
+  soft_min = 1,
+  soft_max = 10,
+  hard_min = 1,
+  hard_max = 100,
+  step = 1,
+  digits = 0,
+  value = dt.preferences.read("autolevels", "batch_size", "integer") or 1,
+  label = _("batch size"),
+  tooltip = _("choose the number of images to process in one batch"),
+}
+
+
 -- Button "add AutoLevels curve"
 widgets.add_curve_button = dt.new_widget("button"){
   label = _("add AutoLevels curve"),
@@ -307,6 +332,7 @@ widgets.add_curve_button = dt.new_widget("button"){
   end
 }
 
+
 -- Button "stop"
 widgets.stop_button = dt.new_widget("button"){
   label = _("stop"),
@@ -318,6 +344,7 @@ widgets.stop_button = dt.new_widget("button"){
   end
 }
 widgets.stop_button.visible = false
+
 
 -- Button "help"
 widgets.help_button = dt.new_widget("button"){
@@ -359,6 +386,8 @@ end
 -- Register event callbacks
 dt.register_event("selection_watcher", "selection-changed", update_selection_status)
 dt.register_event("save_model_path", "exit", save_model_path)
+dt.register_event("save_batch_size", "exit", save_batch_size)
+
 
 dt.register_lib(
   "autolevels",            -- module name (key for dt.gui.libs)
@@ -370,16 +399,20 @@ dt.register_lib(
     orientation = "vertical",
     dt.new_widget("box"){
       orientation = "horizontal",
-      dt.new_widget("label"){label = _("model"), halign = "start"},
+      widgets.model_path_label,
       widgets.model_chooser_button,
     },
-    widgets.status,
+    dt.new_widget("box"){
+      orientation = "horizontal",
+      widgets.batch_size_slider,
+      widgets.help_button,
+    },
     dt.new_widget("box"){ 
       orientation = "horizontal",
       widgets.add_curve_button,
       widgets.stop_button,
-      widgets.help_button,
     },
+    widgets.status,
   }
 )
 
