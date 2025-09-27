@@ -128,19 +128,25 @@ local function add_autolevels_curves()
   end
   if not fallback_used then
     -- db.write_timestamp needs to be updated, which is compared with mtime on startup
-    dt.print_log("writing xmp files...")
+    -- Here it is done by gui.action, but this is brittle, may cause race conditions, see below.
+    --dt.print_log("writing xmp files...")
     local sele = dt.gui.selection(processed_images)
     dt.gui.action("lib/copy_history/write sidecar files", "", "", 1.000)  -- 0.2 ms / xmp
+    --dt.gui.action("lib/copy_history/write sidecar files", "")  -- worse
     if #sele < #processed_images then
       dt.print("Don't change selection during processing!")
       dt.print_log(#sele.."/"..#processed_images.." images are still selected, trying again...")
       sele = dt.gui.selection(processed_images)
       dt.gui.action("lib/copy_history/write sidecar files", "", "", 1.000)  -- 0.2 ms / xmp
     end
-    dt.print_log("all xmp files updated")
-    -- select any unprocessed images
-    dt.gui.selection(selected_images)
+    --dt.print_log("all xmp files updated")
   end
+
+  -- Select any unprocessed images
+  dt.control.sleep(350)  -- 350 ms OK, 325 causes race condition:
+  dt.gui.selection(selected_images)  -- BUG: prevents dt.gui.action("lib/copy_history/write sidecar files", "", "", 1.000)
+  -- #selected_images is irrelevant, {} gives the same, docs say empty table selects nothing
+  -- gui.action always returns nil, not a status string as docs say
 
   lock_status_update = true  --prevent selection-changed hook from overwriting this:
   widgets.status.label = num_added_curves .. _(" curve(s) added")
