@@ -174,7 +174,7 @@ local function add_autolevels_curves()
 
 
   local function get_path_outsuffix(key)
-    path_outsuffix_id = split(key, '|')
+    path_outsuffix_id = du.split(key, '|')
     return path_outsuffix_id[1], path_outsuffix_id[2]
   end
 
