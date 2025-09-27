@@ -32,6 +32,7 @@ local dt = require "darktable"
 local du = require "lib/dtutils"
 local duf = require "lib/dtutils.file"
 local dsys = require "lib/dtutils.system"
+local ds = require "lib/dtutils.string"
 local gettext = dt.gettext
 
 du.check_min_api_version("9.3.0", autolevels)
@@ -57,11 +58,13 @@ script_data.metadata = {
   help = "https://docs.darktable.org/lua/stable/lua.scripts.manual/scripts/contrib/autolevels"
 }
 
+
 local function destroy()
   dt.destroy_event("selection_watcher", "selection-changed")
   dt.destroy_event("save_model_path", "exit")
   dt.gui.libs["autolevels"].visible = false
 end
+
 
 local function restart()
   dt.gui.libs["autolevels"].visible = true
@@ -77,22 +80,63 @@ script_data.show = restart
 
 local widgets = {}
 local lock_status_update = false
-local path_separator = package.config:sub(1,1)
+
 
 local function get_autolevels_outsuffix(filename, sidecar)
   -- Return the unique part of sidecar that deviates from filename
   -- Example: filename='foo.jpg', sidecar='/path/to/foo_01.jpg.xmp' -> '_01.jpg.xmp'
   local sidecar_filename = duf.get_filename(sidecar)
   local basename = duf.get_basename(filename)
-  return '"' .. sidecar_filename:sub(#basename + 1, -1) .. '"'  -- remove basename from sidecar_filename
+  return ds.sanitize(sidecar_filename:sub(#basename + 1, -1))  -- remove basename from sidecar_filename
 end
+
 
 local function run_autolevels(path, outsuffix, fn, model)
   local cmd_str = "autolevels --model "..model.." --folder "..path.." --outfolder "..path
     .." --outsuffix "..outsuffix.." --export darktable "..dt.configuration.version.." -- "..fn
-  -- dt.print_error("DEBUG cmd_str: "..cmd_str)
+  -- dt.print_log("DEBUG cmd_str: "..cmd_str)
   dt.control.execute(cmd_str)
 end
+
+
+local function get_batch_size()
+  return math.tointeger(widgets.batch_size_slider.value)
+end
+
+
+local function save_batch_size()
+  dt.preferences.write("autolevels", "batch_size", "integer", get_batch_size())
+end
+
+
+local function flatten_batches(batches, selection)
+  -- Return a subset of batches encompassing selection
+  -- selection: set-like table of batch keys
+  local images = {}
+  for key, __ in pairs(selection) do
+    if not batches[key] then
+      dt.print_log("KeyError: batch " .. key .. " not found")
+      goto continue
+    end
+    for __, image in pairs(batches[key]) do
+      table.insert(images, image)
+    end
+    ::continue::
+  end
+  return images
+end
+
+
+local function split(str, delimiter)
+  if not str or str == "" then return {} end
+  local pattern = "([^" .. delimiter .. "]+)"
+  local result = {}
+  for match in str:gmatch(pattern) do
+      table.insert(result, match)
+  end
+  return result
+end
+
 
 local function add_autolevels_curves()
   -- Add an rgbcurve from AutoLevels to each selected image
@@ -100,36 +144,95 @@ local function add_autolevels_curves()
   local images = dt.gui.selection()
   local selected_images = dt.gui.selection()
   local processed_images = {}
-  local quoted_model = '"'..widgets.model_chooser_button.value..'"'
+  local quoted_model = ds.sanitize(widgets.model_chooser_button.value)
+
+  -- Form a batch for each unique (path, duplicate) pair (path, outsuffix)
+  local batch_size = get_batch_size()
+  local batches = {}
+  local selected_batches = {}
+  local processed_batches = {}
+
+
+  local function append_image(quoted_path, quoted_outsuffix, image)
+    -- key is unique (path, outsuffix) pair and batch contains max batch_size images
+    local batch_id = 1
+    local key = quoted_path .. "|" .. quoted_outsuffix .. "|" .. string.format("%06d", batch_id)
+
+    -- find next available batch
+    batches[key] = batches[key] or {}
+    while #batches[key] >= batch_size do
+      batch_id = batch_id + 1
+      key = quoted_path .. "|" .. quoted_outsuffix .. "|" .. string.format("%06d", batch_id)
+      batches[key] = batches[key] or {}
+    end
+
+    -- append image to batch
+    table.insert(batches[key], image)
+    selected_batches[key] = true  -- set-like table of batch keys
+    dt.print_log("appended image " .. image.id .. " to batch " .. key)
+  end
+
+
+  local function get_path_outsuffix(key)
+    path_outsuffix_id = du.split(key, '|')
+    return path_outsuffix_id[1], path_outsuffix_id[2]
+  end
+
+
+  for __, image in pairs(images) do  -- __ are same as in ipairs, different from image.id
+    local quoted_outsuffix = get_autolevels_outsuffix(image.filename, image.sidecar)
+    local quoted_path = ds.sanitize(image.path)
+    append_image(quoted_path, quoted_outsuffix, image)
+  end
+
+  sorted_batch_keys = {}
+  for key in pairs(selected_batches) do
+    table.insert(sorted_batch_keys, key)
+  end
+  table.sort(sorted_batch_keys)
+
   local num_added_curves = 0
   local fallback_used = false
-  for i, image in ipairs(images) do
-    local quoted_fn = '"'..image.filename..'"'
-    local quoted_path = '"'..image.path..'"'
-    local quoted_outsuffix = get_autolevels_outsuffix(image.filename, image.sidecar)
+  for __, key in pairs(sorted_batch_keys) do
+    local batch_images = batches[key]
+    dt.print_log("processing batch " .. key)
+    -- no table packing/unpacking!
+    local quoted_path, quoted_outsuffix = get_path_outsuffix(key)
+
+    local quoted_parts = {}
+    for __, image in pairs(batch_images) do
+      table.insert(quoted_parts, ds.sanitize(image.filename))
+    end
+    local quoted_fns = table.concat(quoted_parts, ' ')
+  
+    -- run autolevels with all images of the batch
     if widgets.stop_button.visible == false then
       break
     end
-    run_autolevels(quoted_path, quoted_outsuffix, quoted_fn, quoted_model)
+    run_autolevels(quoted_path, quoted_outsuffix, quoted_fns, quoted_model)
 
-    -- Update the database from the written XMP file
-    local success = false
-    success, __ = pcall(function()
-      image:apply_sidecar(image.sidecar)  -- requires darktable>=5.2, updates db.change_timestamp
-    end)
-    if not success then
-      fallback_used = true  -- fallback for older DT versions
-      image.delete(image)  -- needed to update thumbnail on import
-      pcall(function() dt.database.import(image.path..path_separator..image.filename) end)  -- crashes dt if not found
+    -- Update the database from the modified XMP files
+    for __, image in pairs(batch_images) do
+      local success = false
+      local result = nil
+      success, result = pcall(function()
+        image:apply_sidecar(image.sidecar)  -- requires darktable>=5.2, updates db.change_timestamp
+      end)
+      if not success then
+        fallback_used = true  -- fallback for older DT versions
+        image.delete(image)  -- needed to update thumbnail on import
+        pcall(function() dt.database.import(image.path..path_separator..image.filename) end)  -- crashes dt if not found
+      end
+      num_added_curves = num_added_curves + 1
+      table.insert(processed_images, image)
     end
-    num_added_curves = num_added_curves + 1
-    processed_images[i] = image
-    selected_images[i] = nil
+    selected_batches[key] = nil
   end
+
   if not fallback_used then
     -- db.write_timestamp needs to be updated, which is compared with mtime on startup
     -- Here it is done by gui.action, but this is brittle, may cause race conditions, see below.
-    --dt.print_log("writing xmp files...")
+    --dt.print_log("writing xmp files for " .. #processed_images .. " images...")
     local sele = dt.gui.selection(processed_images)
     dt.gui.action("lib/copy_history/write sidecar files", "", "", 1.000)  -- 0.2 ms / xmp
     --dt.gui.action("lib/copy_history/write sidecar files", "")  -- worse
@@ -143,16 +246,19 @@ local function add_autolevels_curves()
   end
 
   -- Select any unprocessed images
-  dt.control.sleep(350)  -- 350 ms OK, 325 causes race condition:
+  dt.control.sleep(400)  -- 380+ ms OK, 360 ms causes race condition:
+  selected_images = flatten_batches(batches, selected_batches)
   dt.gui.selection(selected_images)  -- BUG: prevents dt.gui.action("lib/copy_history/write sidecar files", "", "", 1.000)
   -- #selected_images is irrelevant, {} gives the same, docs say empty table selects nothing
   -- gui.action always returns nil, not a status string as docs say
+  dt.print_log(#processed_images .. "/" .. #images .. " images processed, " .. #selected_images .. " remain selected")
 
   lock_status_update = true  --prevent selection-changed hook from overwriting this:
   widgets.status.label = num_added_curves .. _(" curve(s) added")
   widgets.stop_button.visible = false
   widgets.add_curve_button.visible = true
 end
+
 
 local function save_model_path()
   dt.preferences.write("autolevels", "model_path", "string", widgets.model_chooser_button.value)
@@ -166,9 +272,10 @@ local msg_calling_autolevels = _("calling autolevels...")
 local msg_stopping = _("stopping...")
 
 
--- Add GUI lib
+-- Add GUI lib elements
+
 -- Widget for model_path
-widgets.model_path_label = dt.new_widget("section_label"){label = _("add model")}
+widgets.model_path_label = dt.new_widget("label"){label = _("model"), halign = "start"}
 widgets.model_chooser_button = dt.new_widget("file_chooser_button"){
   title = _("select model file"),
   tooltip = _("select your downloaded .onnx curve model file"),
@@ -193,6 +300,21 @@ if dt.preferences.read("autolevels", "model_path", "string") then
   widgets.model_chooser_button.value = dt.preferences.read("autolevels", "model_path", "string")
 end
 
+
+-- Widget for batch_size
+widgets.batch_size_slider = dt.new_widget("slider"){
+  soft_min = 1,
+  soft_max = 10,
+  hard_min = 1,
+  hard_max = 100,
+  step = 1,
+  digits = 0,
+  value = dt.preferences.read("autolevels", "batch_size", "integer") or 1,
+  label = _("batch size"),
+  tooltip = _("choose the number of images to process in one batch"),
+}
+
+
 -- Button "add AutoLevels curve"
 widgets.add_curve_button = dt.new_widget("button"){
   label = _("add AutoLevels curve"),
@@ -210,6 +332,7 @@ widgets.add_curve_button = dt.new_widget("button"){
   end
 }
 
+
 -- Button "stop"
 widgets.stop_button = dt.new_widget("button"){
   label = _("stop"),
@@ -221,6 +344,7 @@ widgets.stop_button = dt.new_widget("button"){
   end
 }
 widgets.stop_button.visible = false
+
 
 -- Button "help"
 widgets.help_button = dt.new_widget("button"){
@@ -237,6 +361,7 @@ widgets.help_button = dt.new_widget("button"){
   end
 }
 
+
 -- Status field
 widgets.status = dt.new_widget("label"){label = "", halign = "start"}
 
@@ -249,6 +374,7 @@ local function update_selection_status()
   end
 end
 
+
 -- Initialize status field
 if widgets.model_chooser_button.value and #widgets.model_chooser_button.value > 0 then
   update_selection_status()
@@ -256,9 +382,12 @@ else
   widgets.status.label = _("Specify model file & select images!")
 end
 
+
 -- Register event callbacks
 dt.register_event("selection_watcher", "selection-changed", update_selection_status)
 dt.register_event("save_model_path", "exit", save_model_path)
+dt.register_event("save_batch_size", "exit", save_batch_size)
+
 
 dt.register_lib(
   "autolevels",            -- module name (key for dt.gui.libs)
@@ -270,16 +399,20 @@ dt.register_lib(
     orientation = "vertical",
     dt.new_widget("box"){
       orientation = "horizontal",
-      dt.new_widget("label"){label = _("model"), halign = "start"},
+      widgets.model_path_label,
       widgets.model_chooser_button,
     },
-    widgets.status,
+    dt.new_widget("box"){
+      orientation = "horizontal",
+      widgets.batch_size_slider,
+      widgets.help_button,
+    },
     dt.new_widget("box"){ 
       orientation = "horizontal",
       widgets.add_curve_button,
       widgets.stop_button,
-      widgets.help_button,
     },
+    widgets.status,
   }
 )
 
