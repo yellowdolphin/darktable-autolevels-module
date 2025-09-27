@@ -99,13 +99,13 @@ local function run_autolevels(path, outsuffix, fn, model)
 end
 
 
-local function save_batch_size()
-  dt.preferences.write("autolevels", "batch_size", "integer", widgets.batch_size_slider.value)
+local function get_batch_size()
+  return math.tointeger(widgets.batch_size_slider.value)
 end
 
 
-local function get_batch_size()
-  return widgets.batch_size_slider.value
+local function save_batch_size()
+  dt.preferences.write("autolevels", "batch_size", "integer", get_batch_size())
 end
 
 
