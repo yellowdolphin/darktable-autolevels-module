@@ -156,13 +156,13 @@ local function add_autolevels_curves()
   local function append_image(quoted_path, quoted_outsuffix, image)
     -- key is unique (path, outsuffix) pair and batch contains max batch_size images
     local batch_id = 1
-    local key = quoted_path .. "|" .. quoted_outsuffix .. "|" .. batch_id
+    local key = quoted_path .. "|" .. quoted_outsuffix .. "|" .. string.format("%06d", batch_id)
 
     -- find next available batch
     batches[key] = batches[key] or {}
     while #batches[key] >= batch_size do
       batch_id = batch_id + 1
-      key = quoted_path .. "|" .. quoted_outsuffix .. "|" .. batch_id
+      key = quoted_path .. "|" .. quoted_outsuffix .. "|" .. string.format("%06d", batch_id)
       batches[key] = batches[key] or {}
     end
 
