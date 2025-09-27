@@ -24,6 +24,8 @@ This script automates the process of setting up RGB curves for a basic color cor
 
 * Select images and press the "add AutoLevels curve" button
 
+* You can accelerate the processing (up to 2x) by increasing the *batch size* in the _AutoLevels_ module. This will update progress and allow stopping only after each batch completes.
+
 * In the darkroom, you will find a new history item that adds an _rgb curve_ instance in mode "RGB, independent channels". Feel free to make adjustments to the curves, the original curves will remain in the _history_ until you compress the history stack.
 
 You might notice that the _rgb curve_ instance created by AutoLevels is applied right before the _input color profile_ module. This is where the channel-wise color correction works most effectively for JPEGs and most HDR images (RAW formats are not yet supported by the script). If you create a new _rgb curve_ instance, this will appear at the usual place in the pipeline.
