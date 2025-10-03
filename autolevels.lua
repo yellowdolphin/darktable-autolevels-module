@@ -154,11 +154,17 @@ local function add_autolevels_curves()
 
 
   local function append_image(quoted_path, quoted_outsuffix, image)
-    -- key is unique (path, outsuffix) pair and batch contains max batch_size images
+    -- check image format
+    if image.is_raw then
+      dt.print("Image " .. image.filename .. " has a RAW format, currently not supported, skipping")
+      return
+    end
+
+    -- create key with unique (path, outsuffix) pair and batch_id
     local batch_id = 1
     local key = quoted_path .. "|" .. quoted_outsuffix .. "|" .. string.format("%06d", batch_id)
 
-    -- find next available batch
+    -- find next available batch (batches contain max batch_size images)
     batches[key] = batches[key] or {}
     while #batches[key] >= batch_size do
       batch_id = batch_id + 1
