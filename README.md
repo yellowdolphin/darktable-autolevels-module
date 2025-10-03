@@ -10,9 +10,9 @@ autolevels.lua - automatic color correction using _rgb curve_
 
 This script calls AutoLevels to add an _rgb curve_ instance with a baseline color correction.
 
-[AutoLevels](https://github.com/yellowdolphin/autolevels) is a Python script for batch-processing images with a focus on scanned analog photos with degraded colors. It uses a machine-learning (ML) model to automatically correct bleached colors and restore contrast acceptable for display (sRGB or Adobe RGB output color spaces). This model predicts curves for the three color channels, which are fitted to splines that are used by darktable's _rgb curve_ module.
+[AutoLevels](https://github.com/yellowdolphin/autolevels) is a Python script for batch-processing images with a focus on scanned analog photos with degraded colors. It uses a machine-learning (ML) model to automatically correct bleached colors and restore contrast acceptable for display (sRGB or Adobe RGB output color spaces). This model predicts curves for the three color channels, which are used as splines in darktable's _rgb curve_ module.
 
-This script automates the process of setting up RGB curves for a basic color correction. It does not add any color grading or “look” to the image. You can fine-tune the curves manually if needed. Any artistic editing, however, should be done in a separate _rgb curve_ instance.
+This script automates basic color correction using RGB curves. It does not add any color grading or “look” to the image. You can fine-tune the curves manually if needed. Any further artistic editing should be done in a separate _rgb curve_ instance.
 
 ## Usage
 
@@ -40,7 +40,7 @@ autolevels --model ~/Downloads/free_xcittiny_wa14.onnx --export darktable 5.3.0 
 
 AutoLevels reads the XMP sidecar file associated with each selected image (or duplicate). It is passed via the `--outsuffix` option. If the XMP file does not exist, AutoLevels will create a minimal one with the default auto-apply presets. The `--outsuffix` option is optional and prevents AutoLevels from creating an output image if its value ends with ".xmp".
 
-If you want to call AutoLevels with the `--export darktable` option outside of darktable, note that darktable only reads XMP files on import if you have activated the `look for updated XMP files on startup` option in preferences/storage.
+If you want to call AutoLevels with the `--export darktable` option outside of darktable, note that darktable only reads XMP files on startup if you have activated the `look for updated XMP files on startup` option in preferences/storage.
 
 ## Additional Software Required
 
