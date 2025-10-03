@@ -16,6 +16,8 @@ This script automates basic color correction using RGB curves. It does not add a
 
 ## Usage
 
+* Download [autolevels.lua](https://raw.githubusercontent.com/yellowdolphin/darktable-autolevels-module/master/autolevels.lua) and move it to a lua subfolder in your darktable configuration directory (e.g. `~/.config/darktable/lua/contrib/`)
+
 * Start this script in the _scripts_ module in the lighttable view. An _AutoLevels_ module will appear in the same panel.
 
 * Download the ONNX curve model [here](https://github.com/yellowdolphin/darktable-autolevels-module/releases/download/v1.0.0/free_xcittiny_wa14.onnx) or from the [RetroShine webpage](https://retroshine.eu/download/free_xcittiny_wa14.onnx)
