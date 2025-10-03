@@ -37,6 +37,11 @@ local gettext = dt.gettext
 
 du.check_min_api_version("9.3.0", autolevels)
 
+local apply_sidecar_works = false
+-- does not update write_timestamp in DB => check_xmp_on_startup fails as xmp's mtime is newer now
+-- incorrectly handles tags with spaces (strips anything after the space), like import()
+
+
 -- Module translations in subfolder locale
 local path_separator = dt.configuration.running_os == 'windows' and '\\' or '/'
 local module_path = debug.getinfo(1, 'S').source:sub(2):match('(.*[/\\])')
@@ -221,11 +226,13 @@ local function add_autolevels_curves()
     for __, image in pairs(batch_images) do
       local success = false
       local result = nil
-      success, result = pcall(function()
-        image:apply_sidecar(image.sidecar)  -- requires darktable>=5.2, updates db.change_timestamp
-      end)
+      if apply_sidecar_works then
+        success, result = pcall(function()
+          image:apply_sidecar(image.sidecar)  -- requires darktable>=5.2, updates db.change_timestamp
+        end)
+      end
       if not success then
-        fallback_used = true  -- fallback for older DT versions
+        fallback_used = true  -- fallback until apply_sidecar is fully fixed
         image.delete(image)  -- needed to update thumbnail on import
         pcall(function() dt.database.import(image.path..path_separator..image.filename) end)  -- crashes dt if not found
       end
@@ -243,6 +250,7 @@ local function add_autolevels_curves()
     dt.gui.action("lib/copy_history/write sidecar files", "", "", 1.000)  -- 0.2 ms / xmp
     --dt.gui.action("lib/copy_history/write sidecar files", "")  -- worse
     if #sele < #processed_images then
+      -- selection can change due to user interaction
       dt.print("Don't change selection during processing!")
       dt.print_log(#sele.."/"..#processed_images.." images are still selected, trying again...")
       sele = dt.gui.selection(processed_images)
