@@ -132,17 +132,6 @@ local function flatten_batches(batches, selection)
 end
 
 
-local function split(str, delimiter)
-  if not str or str == "" then return {} end
-  local pattern = "([^" .. delimiter .. "]+)"
-  local result = {}
-  for match in str:gmatch(pattern) do
-      table.insert(result, match)
-  end
-  return result
-end
-
-
 local function add_autolevels_curves()
   -- Add an rgbcurve from AutoLevels to each selected image
   
@@ -294,7 +283,7 @@ widgets.model_chooser_button = dt.new_widget("file_chooser_button"){
   title = _("select model file"),
   tooltip = _("select your downloaded .onnx curve model file"),
   is_directory = false,
-  changed_callback = function(_)
+  changed_callback = function(__)
     local model_path = widgets.model_chooser_button.value
     if not model_path then
       return
@@ -333,7 +322,7 @@ widgets.batch_size_slider = dt.new_widget("slider"){
 widgets.add_curve_button = dt.new_widget("button"){
   label = _("add AutoLevels curve"),
   tooltip = _('add rgb curve "AutoLevels" to selected images'),
-  clicked_callback = function(_)
+  clicked_callback = function(__)
     widgets.add_curve_button.visible = false
     widgets.stop_button.visible = true
     local model_path = widgets.model_chooser_button.value
@@ -351,7 +340,7 @@ widgets.add_curve_button = dt.new_widget("button"){
 widgets.stop_button = dt.new_widget("button"){
   label = _("stop"),
   tooltip = _('stop processing'),
-  clicked_callback = function(_)
+  clicked_callback = function(__)
     widgets.status.label = msg_stopping
     widgets.stop_button.visible = false
     widgets.add_curve_button.visible = true
@@ -364,8 +353,9 @@ widgets.stop_button.visible = false
 widgets.help_button = dt.new_widget("button"){
   label = _("help"),
   tooltip = _("open help page"),
-  clicked_callback = function(_)
-    local help_url = 'https://github.com/yellowdolphin/darktable-autolevels-module'
+  clicked_callback = function(__)
+    local readme = _("README.md")
+    local help_url = 'https://github.com/yellowdolphin/darktable-autolevels-module/releases/download/v1.0.0/' .. readme
     if du.check_os({"windows"}) then
       help_url = 'start ' .. help_url
     end
