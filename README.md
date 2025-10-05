@@ -16,7 +16,7 @@ This script automates basic color correction using RGB curves. It does not add a
 
 ## Usage
 
-* Download [autolevels.lua](https://raw.githubusercontent.com/yellowdolphin/darktable-autolevels-module/master/autolevels.lua) and move it to a lua subfolder in your darktable configuration directory (e.g. `~/.config/darktable/lua/contrib/`)
+* Download [autolevels.lua](https://raw.githubusercontent.com/yellowdolphin/darktable-autolevels-module/master/autolevels.lua) and move it to a lua subfolder in your darktable configuration directory (e.g. `~/.config/darktable/lua/contrib/` under Linux or `%AppData%\darktable\lua\contrib\` under Windows).
 
 * Start this script in the _scripts_ module in the lighttable view. An _AutoLevels_ module will appear in the same panel.
 
@@ -50,7 +50,7 @@ If you want to call AutoLevels with the `--export darktable` option outside of d
 
 - AutoLevels
 
-On most Linux distros, Python is already pre-installed. For other operating systems, download it from [Python.org](https://www.python.org/downloads/) or install it via your favourite app store. Then, to install AutoLevels, open a shell (cmd on Windows) and execute:
+On most Linux distros, Python is already pre-installed. For other operating systems, download it from [Python.org](https://www.python.org/downloads/) or install it via your favourite app store. Make sure you mark the checkbox "Add Python executable to PATH". Then, to install AutoLevels, open a shell (cmd on Windows) and execute:
 
 ```bash
 pip install autolevels
