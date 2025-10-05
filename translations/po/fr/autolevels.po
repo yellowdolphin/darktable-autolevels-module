@@ -1,0 +1,110 @@
+# French translations for autolevels package.
+# Copyright (C) 2025 THE autolevels'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the autolevels package.
+# Automatically generated, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: autolevels 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-10-05 14:07+0200\n"
+"PO-Revision-Date: 2025-10-04 16:47+0200\n"
+"Last-Translator: anthropic/claude-sonnet-4.5\n"
+"Language-Team: none\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:61
+msgid "automatic color correction using AutoLevels"
+msgstr "correction automatique des couleurs avec AutoLevels"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:273
+msgid " curve(s) added"
+msgstr " courbe(s) ajoutée(s)"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:285
+msgid "ERROR: selected file is not an ONNX file"
+msgstr "ERREUR : le fichier sélectionné n'est pas un fichier ONNX"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:286
+msgid "missing model path"
+msgstr "chemin du modèle manquant"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:287
+msgid "autolevels executable not found"
+msgstr "exécutable autolevels introuvable"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:288
+msgid "autolevels executable not found, make sure it is installed"
+msgstr "exécutable autolevels introuvable, assurez-vous qu'il est installé"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:289
+msgid "calling autolevels..."
+msgstr "appel d'autolevels..."
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:290
+msgid "stopping..."
+msgstr "arrêt en cours..."
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:296
+msgid "model"
+msgstr "modèle"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:298
+msgid "select model file"
+msgstr "sélectionner le fichier de modèle"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:299
+msgid "select your downloaded .onnx curve model file"
+msgstr "sélectionnez votre fichier de modèle de courbe .onnx téléchargé"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:331
+msgid "batch size"
+msgstr "taille du lot"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:332
+msgid "choose the number of images to process in one batch"
+msgstr "choisissez le nombre d'images à traiter dans un lot"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:338
+msgid "add AutoLevels curve"
+msgstr "ajouter une courbe AutoLevels"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:339
+msgid "add rgb curve \"AutoLevels\" to selected images"
+msgstr "ajouter une courbe RVB « AutoLevels » aux images sélectionnées"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:360
+msgid "stop"
+msgstr "arrêter"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:361
+msgid "stop processing"
+msgstr "arrêter le traitement"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:373
+msgid "help"
+msgstr "aide"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:374
+msgid "open help page"
+msgstr "ouvrir la page d'aide"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:376
+msgid "README.md"
+msgstr "README_fr.md"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:388
+msgid "could not open default web browser"
+msgstr "impossible d'ouvrir le navigateur web par défaut"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:402
+msgid " image(s) selected"
+msgstr " image(s) sélectionnée(s)"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:411
+msgid "Specify model file & select images!"
+msgstr "Spécifiez le fichier de modèle et sélectionnez des images !"

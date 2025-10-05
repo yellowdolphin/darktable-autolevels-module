@@ -16,9 +16,11 @@ Dieses Skript automatisiert die Farbkorrektur mittels RGB-Kurven. Es fügt dem B
 
 ## Verwendung
 
+* Laden Sie [autolevels.lua](https://raw.githubusercontent.com/yellowdolphin/darktable-autolevels-module/master/autolevels.lua) herunter und verschieben sie es in ein Unterverzeichnis des lua Ordners in Ihrem darktable Konfigurations-Ordner (z.B. `~/.config/darktable/lua/contrib/` unter Linux oder `%AppData%\darktable\lua\contrib\` unter Windows).
+
 * Starten Sie dieses Skript im _scripts_-Modul in der Leuchtisch-Ansicht. Ein _AutoLevels_-Modul erscheint im selben Panel.
 
-* Laden Sie das ONNX-Kurvenmodell [hier](https://github.com/yellowdolphin/darktable-autolevels-module/releases/download/v1.0.0/free_xcittiny_wa14.onnx) oder von der [RetroShine-Webseite](https://retroshine.eu/download/free_xcittiny_wa14.onnx) herunter
+* Laden Sie das ONNX-Kurvenmodell [hier](https://github.com/yellowdolphin/darktable-autolevels-module/releases/download/v1.0.0rc/free_xcittiny_wa14.onnx) herunter
 
 * Klicken Sie auf die kleine Dateibrowser-Schaltfläche, um nach der heruntergeladenen .onnx-Datei zu suchen
 
@@ -48,7 +50,7 @@ Wenn Sie AutoLevels mit der Option `--export darktable` außerhalb von darktable
 
 - AutoLevels
 
-Bei den meisten Linux-Distributionen ist Python bereits vorinstalliert. Für andere Betriebssysteme laden Sie es von [Python.org](https://www.python.org/downloads/) herunter oder installieren es über Ihren bevorzugten App Store. Um AutoLevels zu installieren, öffnen Sie dann eine Shell (cmd unter Windows) und führen aus:
+Bei den meisten Linux-Distributionen ist Python bereits vorinstalliert. Für andere Betriebssysteme laden Sie es von [Python.org](https://www.python.org/downloads/) herunter oder installieren es über Ihren bevorzugten App Store. Stellen Sie sicher, dass das Kontrollkästchen "Add Python executable to PATH" aktiviert ist. Um AutoLevels zu installieren, öffnen Sie dann eine Shell (cmd unter Windows) und führen aus:
 
 ```bash
 pip install autolevels

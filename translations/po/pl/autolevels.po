@@ -1,0 +1,113 @@
+# Polish translations for autolevels package.
+# Copyright (C) 2025 THE autolevels'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the autolevels package.
+# Automatically generated, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: autolevels 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-10-05 14:07+0200\n"
+"PO-Revision-Date: 2025-10-04 16:47+0200\n"
+"Last-Translator: anthropic/claude-sonnet-4.5\n"
+"Language-Team: none\n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2);\n"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:61
+msgid "automatic color correction using AutoLevels"
+msgstr "automatyczna korekcja kolorów przy użyciu AutoLevels"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:273
+msgid " curve(s) added"
+msgstr " dodano krzywą/krzywe"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:285
+msgid "ERROR: selected file is not an ONNX file"
+msgstr "BŁĄD: wybrany plik nie jest plikiem ONNX"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:286
+msgid "missing model path"
+msgstr "brak ścieżki do modelu"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:287
+msgid "autolevels executable not found"
+msgstr "nie znaleziono pliku wykonywalnego autolevels"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:288
+msgid "autolevels executable not found, make sure it is installed"
+msgstr ""
+"nie znaleziono pliku wykonywalnego autolevels, upewnij się, że jest "
+"zainstalowany"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:289
+msgid "calling autolevels..."
+msgstr "wywoływanie autolevels..."
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:290
+msgid "stopping..."
+msgstr "zatrzymywanie..."
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:296
+msgid "model"
+msgstr "model"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:298
+msgid "select model file"
+msgstr "wybierz plik modelu"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:299
+msgid "select your downloaded .onnx curve model file"
+msgstr "wybierz pobrany plik modelu krzywej .onnx"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:331
+msgid "batch size"
+msgstr "rozmiar partii"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:332
+msgid "choose the number of images to process in one batch"
+msgstr "wybierz liczbę obrazów do przetworzenia w jednej partii"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:338
+msgid "add AutoLevels curve"
+msgstr "dodaj krzywą AutoLevels"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:339
+msgid "add rgb curve \"AutoLevels\" to selected images"
+msgstr "dodaj krzywą RGB \"AutoLevels\" do wybranych obrazów"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:360
+msgid "stop"
+msgstr "zatrzymaj"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:361
+msgid "stop processing"
+msgstr "zatrzymaj przetwarzanie"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:373
+msgid "help"
+msgstr "pomoc"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:374
+msgid "open help page"
+msgstr "otwórz stronę pomocy"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:376
+msgid "README.md"
+msgstr "README_pl.md"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:388
+msgid "could not open default web browser"
+msgstr "nie można otworzyć domyślnej przeglądarki internetowej"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:402
+msgid " image(s) selected"
+msgstr " wybrano obraz(y)"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:411
+msgid "Specify model file & select images!"
+msgstr "Określ plik modelu i wybierz obrazy!"

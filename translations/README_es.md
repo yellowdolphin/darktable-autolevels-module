@@ -16,9 +16,11 @@ Este script automatiza la corrección básica de color usando curvas RGB. No añ
 
 ## Uso
 
+* Descarga [autolevels.lua](https://raw.githubusercontent.com/yellowdolphin/darktable-autolevels-module/master/autolevels.lua) y muévelo a una subcarpeta lua en el directorio de configuración de darktable (por ejemplo, ~/.config/darktable/lua/contrib/ en Linux o %AppData%\darktable\lua\contrib\ en Windows).
+
 * Inicia este script en el módulo _scripts_ en la vista de mesa de luz. Un módulo _AutoLevels_ aparecerá en el mismo panel.
 
-* Descarga el modelo de curva ONNX [aquí](https://github.com/yellowdolphin/darktable-autolevels-module/releases/download/v1.0.0/free_xcittiny_wa14.onnx) o desde la [página web de RetroShine](https://retroshine.eu/download/free_xcittiny_wa14.onnx)
+* Descarga el modelo de curva ONNX [aquí](https://github.com/yellowdolphin/darktable-autolevels-module/releases/download/v1.0.0rc/free_xcittiny_wa14.onnx)
 
 * Haz clic en el pequeño botón del explorador de archivos para buscar el archivo .onnx descargado
 
@@ -40,7 +42,7 @@ autolevels --model ~/Downloads/free_xcittiny_wa14.onnx --export darktable 5.3.0 
 
 AutoLevels lee el archivo XMP asociado con cada imagen seleccionada (o duplicado). Se pasa a través de la opción `--outsuffix`. Si el archivo XMP no existe, AutoLevels creará uno mínimo con los preajustes de aplicación automática predeterminados. La opción `--outsuffix` es opcional y evita que AutoLevels cree una imagen de salida si su valor termina con ".xmp".
 
-Si quieres llamar a AutoLevels con la opción `--export darktable` fuera de darktable, ten en cuenta que darktable solo lee archivos XMP de las imágenes importadas previamente si has activado la opción `buscar archivos XMP actualizados al iniciar` en preferencias/almacenamiento.
+Si quieres llamar a AutoLevels con la opción `--export darktable` fuera de darktable, ten en cuenta que darktable solo lee archivos XMP de las imágenes importadas previamente si has activado la opción `Buscar archivos XMP actualizados al iniciar` en preferencias/almacenamiento.
 
 ## Software adicional requerido
 
@@ -48,7 +50,7 @@ Si quieres llamar a AutoLevels con la opción `--export darktable` fuera de dark
 
 - AutoLevels
 
-En la mayoría de distribuciones de Linux, Python ya viene preinstalado. Para otros sistemas operativos, descárgalo desde [Python.org](https://www.python.org/downloads/) o instálalo a través de tu tienda de aplicaciones favorita. Luego, para instalar AutoLevels, abre una terminal (cmd en Windows) y ejecuta:
+En la mayoría de distribuciones de Linux, Python ya viene preinstalado. Para otros sistemas operativos, descárgalo desde [Python.org](https://www.python.org/downloads/) o instálalo a través de tu tienda de aplicaciones favorita. Asegúrate de marcar la casilla "Add Python executable to PATH". Luego, para instalar AutoLevels, abre una terminal (cmd en Windows) y ejecuta:
 
 ```bash
 pip install autolevels

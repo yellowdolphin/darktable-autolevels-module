@@ -1,0 +1,16 @@
+{
+  "supported_languages": [
+    {"code": "fr_FR", "name": "French", "native_name": "Français"},
+    {"code": "de_DE", "name": "German", "native_name": "Deutsch"},
+    {"code": "es_ES", "name": "Spanish", "native_name": "Español"},
+    {"code": "it_IT", "name": "Italian", "native_name": "Italiano"},
+    {"code": "pl_PL", "name": "Polish", "native_name": "Polski"},
+    {"code": "pt_PT", "name": "Portuguese", "native_name": "Português"},
+    {"code": "uk_UA", "name": "Ukrainian", "native_name": "Українська"},
+    {"code": "nl_NL", "name": "Dutch", "native_name": "Nederlands"},
+    {"code": "da_DK", "name": "Danish", "native_name": "Dansk"},
+    {"code": "ro_RO", "name": "Romanian", "native_name": "Română"},
+    {"code": "sv_SE", "name": "Swedish", "native_name": "Svenska"}
+  ],
+  "default_language": "en"
+}

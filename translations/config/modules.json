@@ -1,0 +1,12 @@
+{
+  "modules": [
+    {
+      "name": "autolevels",
+      "source_dirs": [
+        "."
+      ],
+      "file_patterns": ["autolevels*.lua"],
+      "keywords": ["_", "ngettext", "gettext"]
+    }
+  ]
+}
