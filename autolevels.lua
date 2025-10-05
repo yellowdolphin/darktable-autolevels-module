@@ -67,6 +67,7 @@ script_data.metadata = {
 local function destroy()
   dt.destroy_event("selection_watcher", "selection-changed")
   dt.destroy_event("save_model_path", "exit")
+  dt.destroy_event("save_batch_size", "exit")
   dt.gui.libs["autolevels"].visible = false
 end
 
@@ -105,12 +106,30 @@ end
 
 
 local function get_batch_size()
-  return math.tointeger(widgets.batch_size_slider.value)
+  local batch_size = widgets.batch_size_slider.value
+
+  -- savely convert to integer
+  if batch_size == nil then
+    return 1
+  elseif type(batch_size) == "string" then
+    --dt.print_log("batch_size is string: " .. batch_size)
+    batch_size = tonumber(batch_size:gsub(",", "."))  -- handle comma as decimal separator
+  elseif type(batch_size) == "number" then
+    --dt.print_log("batch_size is number: " .. batch_size)
+  end
+  return math.tointeger(math.floor(batch_size + 0.5))
 end
 
 
 local function save_batch_size()
-  dt.preferences.write("autolevels", "batch_size", "integer", get_batch_size())
+  local batch_size = get_batch_size()
+  if not batch_size then
+    dt.print_log("batch_size is nil")
+    dt.print_log("widgets.batch_size_slider.value: " .. widgets.batch_size_slider.value)
+    dt.print_log("math.tointeger: " .. tostring(math.tointeger(widgets.batch_size_slider.value)))
+    return
+  end
+  dt.preferences.write("autolevels", "batch_size", "integer", batch_size)
 end
 
 
@@ -361,7 +380,13 @@ widgets.help_button = dt.new_widget("button"){
   tooltip = _("open help page"),
   clicked_callback = function(__)
     local readme = _("README.md")
-    local help_url = 'https://github.com/yellowdolphin/darktable-autolevels-module/releases/download/v1.0.0/' .. readme
+    local help_url = 'https://github.com/yellowdolphin/darktable-autolevels-module/'
+    dt.print_log("readme: " .. readme)
+    dt.print_log("help_url: " .. help_url)
+    if #readme > 9 then
+      -- link to translated README.md
+      help_url = 'https://github.com/yellowdolphin/darktable-autolevels-module/blob/master/translations/' .. readme
+    end
     if du.check_os({"windows"}) then
       help_url = 'start ' .. help_url
     end
