@@ -147,7 +147,7 @@ local function add_autolevels_curves()
   local processed_batches = {}
 
 
-  local function append_image(quoted_path, quoted_outsuffix, image)
+  local function append_image(quoted_path, quoted_outsuffix, image, batch_size)
     -- check image format
     if image.is_raw then
       dt.print("Image " .. image.filename .. " has a RAW format, currently not supported, skipping")
@@ -182,7 +182,7 @@ local function add_autolevels_curves()
   for __, image in pairs(images) do  -- __ are same as in ipairs, different from image.id
     local quoted_outsuffix = get_autolevels_outsuffix(image.filename, image.sidecar)
     local quoted_path = ds.sanitize(image.path)
-    append_image(quoted_path, quoted_outsuffix, image)
+    append_image(quoted_path, quoted_outsuffix, image, batch_size)
   end
 
   sorted_batch_keys = {}
