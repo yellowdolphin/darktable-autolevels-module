@@ -271,6 +271,8 @@ end
 -- Assign translated messages to avoid segfault (field "1" can't be written for type ...)
 local msg_filetype_error = _("ERROR: selected file is not an ONNX file")
 local msg_missing_model = _("missing model path")
+local msg_autolevels_not_found = _("autolevels executable not found")
+local msg_autolevels_not_found_long = _("autolevels executable not found, make sure it is installed")
 local msg_calling_autolevels = _("calling autolevels...")
 local msg_stopping = _("stopping...")
 
@@ -328,6 +330,10 @@ widgets.add_curve_button = dt.new_widget("button"){
     local model_path = widgets.model_chooser_button.value
     if not model_path or #model_path == 0 then
       widgets.status.label = msg_missing_model
+      dt.print(msg_missing_model)
+    elseif duf.check_if_bin_exists('autolevels') == false then
+      widgets.status.label = msg_autolevels_not_found
+      dt.print(msg_autolevels_not_found_long)
     else
       widgets.status.label = msg_calling_autolevels
       add_autolevels_curves()
