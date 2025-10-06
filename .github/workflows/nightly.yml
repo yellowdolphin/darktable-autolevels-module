@@ -1,0 +1,67 @@
+name: Nightly Release
+
+on:
+  schedule:
+    - cron: '0 1 * * *'   # every day at 01:00 UTC
+  workflow_dispatch:      # manual trigger
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create zip asset
+        run: |
+          mkdir -p dist
+          cp autolevels.lua dist/autolevels.lua
+          
+          # Prepare locale folder with "translated" README.md file name
+          languages=`ls translations/po`
+
+          for lang in $languages; do
+            pofile=translations/po/$lang/autolevels.po
+            mofile=translations/mo/$lang/LC_MESSAGES/autolevels.mo
+            if ! [ -f $pofile ]; then
+              echo "$pofile not found"
+              continue
+            fi
+
+            # Check "README.md" has been translated to "README_{lang}.md"
+            if [ `grep -ce 'msgstr "README_'${lang}'.md"' $pofile` -ne 1 ]; then
+              echo "[WARNING] 'README.md' string not properly translated in $pofile -- update it and run again!"
+            fi
+
+            # Check README_{lang}.md is there
+            if ! [ -f translations/README_$lang.md ]; then
+              echo "missing README_$lang.md"
+            fi
+
+            # Check and copy mo files
+            if [ $pofile -nt $mofile ]; then
+              echo "[WARNING] $mofile needs to be updated, run translations/update_translations.sh again!"
+            fi
+            mkdir -p dist/locale/$lang/LC_MESSAGES
+            cp -p $mofile dist/locale/$lang/LC_MESSAGES/
+          done
+
+          cd dist
+          zip -r autolevels-nightly.zip locale autolevels.lua
+          cd ..
+
+      - name: Create or update nightly release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: nightly
+          name: "Nightly Build - ${{ github.run_id }}"
+          prerelease: true
+          files: |
+            dist/autolevels-nightly.zip
+            LICENSE
+          body: |
+            Automated nightly build from commit ${{ github.sha }}.
+            Triggered by workflow run ${{ github.run_id }}.
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
