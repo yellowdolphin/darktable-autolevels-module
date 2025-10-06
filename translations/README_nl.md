@@ -14,9 +14,13 @@ Dit script roept AutoLevels aan om een _rgb curve_ instantie toe te voegen met e
 
 Dit script automatiseert basale kleurcorrectie met rgb curves. Het voegt geen kleurgradering of "look" toe aan de afbeelding. Je kunt de curves handmatig verfijnen indien nodig. Verdere artistieke bewerkingen moeten in een aparte _rgb curve_ instantie worden gedaan.
 
+## Installatie
+
+Download [autolevels.zip](https://github.com/yellowdolphin/darktable-autolevels-module/releases/download/nightly/autolevels-nightly.zip) en pak het uit in een lua-submap in uw darktable-configuratiemap (bijv. `~/.config/darktable/lua/contrib/` onder Linux of `%AppData%\darktable\lua\contrib\` onder Windows).
+
 ## Gebruik
 
-* Download [autolevels.lua](https://raw.githubusercontent.com/yellowdolphin/darktable-autolevels-module/master/autolevels.lua) en verplaats het naar een lua-submap in je darktable configuratiemap (bijvoorbeeld `~/.config/darktable/lua/contrib/` onder Linux of `%AppData%\darktable\lua\contrib\` onder Windows).
+* Start dit script in de _scripts_ module in de bibliotheek-weergave. Een _AutoLevels_ module zal verschijnen in hetzelfde paneel.
 
 * Start dit script in de _scripts_ module in de bibliotheek-weergave. Een _AutoLevels_ module zal verschijnen in hetzelfde paneel.
 

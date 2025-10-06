@@ -14,9 +14,11 @@ Acest script apelează AutoLevels pentru a adăuga o instanță de _rgb curve_ c
 
 Acest script automatizează corecția de bază a culorilor folosind curbe RGB. Nu adaugă nicio gradare de culoare sau „aspect" imaginii. Puteți ajusta fin curbele manual dacă este necesar. Orice editare artistică suplimentară ar trebui efectuată într-o instanță separată de _rgb curve_.
 
-## Utilizare
+## Instalare
 
-* Descărcați [autolevels.lua](https://raw.githubusercontent.com/yellowdolphin/darktable-autolevels-module/master/autolevels.lua) și mutați-l într-un subdirector lua din directorul de configurare darktable (de exemplu `~/.config/darktable/lua/contrib/` sub Linux sau `%AppData%\darktable\lua\contrib\` sub Windows).
+Descărcați [autolevels.zip](https://github.com/yellowdolphin/darktable-autolevels-module/releases/download/nightly/autolevels-nightly.zip) și extrageți-l într-un subdosar lua din directorul de configurare darktable (de exemplu, `~/.config/darktable/lua/contrib/` în Linux sau `%AppData%\darktable\lua\contrib\` în Windows).
+
+## Utilizare
 
 * Porniți acest script în modulul _scripts_ din vizualizarea masă luminoasă. Un modul _AutoLevels_ va apărea în același panel.
 

@@ -14,9 +14,13 @@ Ce script appelle AutoLevels pour ajouter une instance de _Courbe RVB_ avec une 
 
 Ce script automatise la correction colorimétrique de base à l'aide de courbes RVB. Il n'ajoute ni étalonnage des couleurs ni « look » à l'image. Vous pouvez affiner les courbes manuellement si nécessaire. Toute autre retouche artistique doit être effectuée dans une instance de _Courbe RVB_ séparée.
 
+## Installation
+
+Téléchargez [autolevels.zip](https://github.com/yellowdolphin/darktable-autolevels-module/releases/download/nightly/autolevels-nightly.zip) et extrayez-le dans un sous-dossier lua de votre répertoire de configuration darktable (par exemple, `~/.config/darktable/lua/contrib/` sous Linux ou `%AppData%\darktable\lua\contrib\` sous Windows).
+
 ## Utilisation
 
-* Téléchargez [autolevels.lua](https://raw.githubusercontent.com/yellowdolphin/darktable-autolevels-module/master/autolevels.lua) et déplacez-le dans un sous-répertoire lua de votre répertoire de configuration darktable (par exemple `~/.config/darktable/lua/contrib/` sous Linux ou `%AppData%\darktable\lua\contrib\` sous Windows).
+* Démarrez ce script dans le module _scripts_ dans la vue table lumineuse. Un module _AutoLevels_ apparaîtra dans le même panneau.
 
 * Démarrez ce script dans le module _scripts_ dans la vue table lumineuse. Un module _AutoLevels_ apparaîtra dans le même panneau.
 

@@ -14,9 +14,11 @@ Questo script chiama AutoLevels per aggiungere un'istanza di _Curva RGB_ con una
 
 Questo script automatizza la correzione del colore di base usando curve RGB. Non aggiunge alcuna gradazione di colore o "look" all'immagine. Puoi regolare manualmente le curve se necessario. Qualsiasi ulteriore editing artistico dovrebbe essere fatto in un'istanza separata di _Curva RGB_.
 
-## Utilizzo
+## Installazione
 
-* Scarica [autolevels.lua](https://raw.githubusercontent.com/yellowdolphin/darktable-autolevels-module/master/autolevels.lua) e spostalo in una sottocartella lua nella directory di configurazione di darktable (ad esempio `~/.config/darktable/lua/contrib/` su Linux o `%AppData%\darktable\lua\contrib\` su Windows).
+Scarica [autolevels.zip](https://github.com/yellowdolphin/darktable-autolevels-module/releases/download/nightly/autolevels-nightly.zip) ed estrailo in una sottocartella lua nella tua directory di configurazione di darktable (ad esempio, `~/.config/darktable/lua/contrib/` su Linux o `%AppData%\darktable\lua\contrib\` su Windows).
+
+## Utilizzo
 
 * Avvia questo script nel modulo _scripts_ nella vista tavolo luminoso. Un modulo _AutoLevels_ apparirà nello stesso pannello.
 

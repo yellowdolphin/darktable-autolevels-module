@@ -14,9 +14,11 @@ Detta skript anropar AutoLevels för att lägga till en _rgb-kurva_-instans med 
 
 Detta skript automatiserar grundläggande färgkorrigering med RGB-kurvor. Det lägger inte till någon färggradering eller "look" till bilden. Du kan finjustera kurvorna manuellt vid behov. Eventuell ytterligare konstnärlig redigering bör göras i en separat _rgb-kurva_-instans.
 
-## Användning
+## Installation
 
-* Ladda ner [autolevels.lua](https://raw.githubusercontent.com/yellowdolphin/darktable-autolevels-module/master/autolevels.lua) och flytta den till en lua-undermapp i din darktable-konfigurationskatalog (t.ex. `~/.config/darktable/lua/contrib/` under Linux eller `%AppData%\darktable\lua\contrib\` under Windows).
+Ladda ner [autolevels.zip](https://github.com/yellowdolphin/darktable-autolevels-module/releases/download/nightly/autolevels-nightly.zip) och packa upp den i en lua-undermapp i din darktable-konfigurationskatalog (t.ex. `~/.config/darktable/lua/contrib/` under Linux eller `%AppData%\darktable\lua\contrib\` under Windows).
+
+## Användning
 
 * Starta detta skript i _script_-modulen i ljusbordsvyn. En _AutoLevels_-modul kommer att visas i samma panel.
 

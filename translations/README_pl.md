@@ -14,9 +14,11 @@ Ten skrypt wywołuje AutoLevels w celu dodania instancji _krzywa RGB_ z podstawo
 
 Ten skrypt automatyzuje podstawową korekcję kolorów przy użyciu krzywych RGB. Nie dodaje żadnej gradacji kolorów ani „stylu" do obrazu. W razie potrzeby możesz ręcznie dostroić krzywe. Wszelkie dalsze edycje artystyczne powinny być wykonywane w oddzielnej instancji _krzywa RGB_.
 
-## Użytkowanie
+## Instalacja
 
-* Pobierz [autolevels.lua](https://raw.githubusercontent.com/yellowdolphin/darktable-autolevels-module/master/autolevels.lua) i przenieś go do podfolderu lua w katalogu konfiguracyjnym darktable (np. `~/.config/darktable/lua/contrib/` w systemie Linux lub `%AppData%\darktable\lua\contrib\` w systemie Windows).
+Pobierz [autolevels.zip](https://github.com/yellowdolphin/darktable-autolevels-module/releases/download/nightly/autolevels-nightly.zip) i rozpakuj go w podfolderze lua w katalogu konfiguracyjnym darktable (np. `~/.config/darktable/lua/contrib/` w systemie Linux lub `%AppData%\darktable\lua\contrib\` w systemie Windows).
+
+## Użytkowanie
 
 * Uruchom ten skrypt w module _skrypty_ w widoku stosu zdjęć. Moduł _AutoLevels_ pojawi się w tym samym panelu.
 
