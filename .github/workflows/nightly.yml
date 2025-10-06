@@ -42,10 +42,7 @@ jobs:
               echo "missing README_$lang.md"
             fi
 
-            # Check and copy mo files
-            if [ $pofile -nt $mofile ]; then
-              echo "[WARNING] $mofile needs to be updated, run translations/update_translations.sh again!"
-            fi
+            # Copy mo files
             mkdir -p dist/locale/$lang/LC_MESSAGES
             cp -p $mofile dist/locale/$lang/LC_MESSAGES/
           done
