@@ -39,7 +39,7 @@ du.check_min_api_version("9.3.0", autolevels)
 
 local apply_sidecar_works = false
 -- does not update write_timestamp in DB => check_xmp_on_startup fails as xmp's mtime is newer now
--- incorrectly handles tags with spaces (strips anything after the space), like import()
+-- FIXED: incorrectly handles tags with spaces (strips anything after the space), like import()
 
 
 -- Module translations in subfolder locale
