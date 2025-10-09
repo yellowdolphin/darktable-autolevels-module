@@ -48,8 +48,31 @@ local module_path = debug.getinfo(1, 'S').source:sub(2):match('(.*[/\\])')
 local locale_path = module_path .. 'locale' .. path_separator
 gettext.bindtextdomain("autolevels", locale_path)
 
+-- Windows codepage to UTF-8 conversion
+local function cp1252_to_utf8(str)
+    if dt.configuration.running_os ~= "windows" then
+        return str  -- No conversion needed on Linux
+    end
+
+    -- Mapping for common German umlauts and special chars in CP1252
+    local cp1252_map = {
+        ["\228"] = "ä",  -- 0xE4
+        ["\246"] = "ö",  -- 0xF6
+        ["\252"] = "ü",  -- 0xFC
+        ["\196"] = "Ä",  -- 0xC4
+        ["\214"] = "Ö",  -- 0xD6
+        ["\220"] = "Ü",  -- 0xDC
+        ["\223"] = "ß",  -- 0xDF
+    }
+
+    return (str:gsub(".", function(c)
+        return cp1252_map[c] or c
+    end))
+end
+
 local function _(msgid)
-    return gettext.dgettext("autolevels", msgid)
+  -- On Windows, dt.gettext.dgettext() returns CP1252 encoded strings, convert to UTF-8
+  return cp1252_to_utf8(gettext.dgettext("autolevels", msgid))
 end
 
 -- return data structure for script_manager
