@@ -51,7 +51,7 @@ gettext.bindtextdomain("autolevels", locale_path)
 -- Windows codepage to UTF-8 conversion
 local function cp1252_to_utf8(str)
     if dt.configuration.running_os ~= "windows" then
-        return str  -- No conversion needed on Linux
+        return str  -- No conversion needed on Linux/macOS
     end
 
     -- Mapping for common German umlauts and special chars in CP1252
@@ -70,9 +70,41 @@ local function cp1252_to_utf8(str)
     end))
 end
 
+local function cp1252_to_utf8_extended(str)
+  if dt.configuration.running_os ~= "windows" then
+      return str
+  end
+  
+  local result = {}
+  for i = 1, #str do
+      local byte = str:byte(i)
+      if byte < 128 then
+          table.insert(result, string.char(byte))
+      elseif byte >= 128 and byte <= 255 then
+          -- CP1252 to UTF-8 conversion for extended ASCII
+          local utf8_bytes = {
+              [196] = "\195\132",     -- Ä
+              [214] = "\195\150",     -- Ö
+              [220] = "\195\156",     -- Ü
+              [223] = "\195\159",     -- ß
+              [228] = "\195\164",     -- ä
+              [246] = "\195\182",     -- ö
+              [252] = "\195\188",     -- ü
+          }
+          table.insert(result, utf8_bytes[byte] or string.char(byte))
+      end
+  end
+  return table.concat(result)
+end
+
 local function _(msgid)
   -- On Windows, dt.gettext.dgettext() returns CP1252 encoded strings, convert to UTF-8
-  return cp1252_to_utf8(gettext.dgettext("autolevels", msgid))
+  local str = gettext.dgettext("autolevels", msgid)
+  dt.print_log("-- compare the two converters ----")
+  dt.print_log("AAA cp1252_to_utf8: " .. cp1252_to_utf8(str))
+  dt.print_log("BBB cp1252_to_utf8_extended: " .. cp1252_to_utf8_extended(str))
+  dt.print_log("----------------------------------")
+  return cp1252_to_utf8(str)
 end
 
 -- return data structure for script_manager
