@@ -283,6 +283,9 @@ end
 
 
 local function save_model_path()
+  if widgets.model_chooser_button.value == nil then
+    return
+  end
   dt.preferences.write("autolevels", "model_path", "string", widgets.model_chooser_button.value)
 end
 
