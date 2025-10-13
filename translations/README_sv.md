@@ -16,7 +16,7 @@ Detta skript automatiserar grundläggande färgkorrigering med RGB-kurvor. Det l
 
 ## Installation
 
-Ladda ner [autolevels.zip](https://github.com/yellowdolphin/darktable-autolevels-module/releases/download/nightly/autolevels-nightly.zip) och packa upp den i en lua-undermapp i din darktable-konfigurationskatalog (t.ex. `~/.config/darktable/lua/contrib/` under Linux eller `%AppData%\darktable\lua\contrib\` under Windows).
+Ladda ner [autolevels.zip](https://github.com/yellowdolphin/darktable-autolevels-module/releases/download/nightly/autolevels-nightly.zip) och packa upp den i en lua-undermapp i din darktable-konfigurationskatalog (t.ex. `~/.config/darktable/lua/contrib/` under Linux eller `%LocalAppData%\darktable\lua\contrib\` under Windows).
 
 ## Användning
 

@@ -16,7 +16,7 @@ Acest script automatizează corecția de bază a culorilor folosind curbe RGB. N
 
 ## Instalare
 
-Descărcați [autolevels.zip](https://github.com/yellowdolphin/darktable-autolevels-module/releases/download/nightly/autolevels-nightly.zip) și extrageți-l într-un subdosar lua din directorul de configurare darktable (de exemplu, `~/.config/darktable/lua/contrib/` în Linux sau `%AppData%\darktable\lua\contrib\` în Windows).
+Descărcați [autolevels.zip](https://github.com/yellowdolphin/darktable-autolevels-module/releases/download/nightly/autolevels-nightly.zip) și extrageți-l într-un subdosar lua din directorul de configurare darktable (de exemplu, `~/.config/darktable/lua/contrib/` în Linux sau `%LocalAppData%\darktable\lua\contrib\` în Windows).
 
 ## Utilizare
 

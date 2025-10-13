@@ -16,7 +16,7 @@ autolevels.lua — автоматична корекція кольору за �
 
 ## Встановлення
 
-Завантажте [autolevels.zip](https://github.com/yellowdolphin/darktable-autolevels-module/releases/download/nightly/autolevels-nightly.zip) та розпакуйте його в підпапку lua у вашому каталозі конфігурації darktable (наприклад, `~/.config/darktable/lua/contrib/` в Linux або `%AppData%\darktable\lua\contrib\` в Windows).                                                     
+Завантажте [autolevels.zip](https://github.com/yellowdolphin/darktable-autolevels-module/releases/download/nightly/autolevels-nightly.zip) та розпакуйте його в підпапку lua у вашому каталозі конфігурації darktable (наприклад, `~/.config/darktable/lua/contrib/` в Linux або `%LocalAppData%\darktable\lua\contrib\` в Windows).                                                     
 
 ## Використання
 

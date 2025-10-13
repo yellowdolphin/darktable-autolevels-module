@@ -16,7 +16,7 @@ Ce script automatise la correction colorimétrique de base à l'aide de courbes 
 
 ## Installation
 
-Téléchargez [autolevels.zip](https://github.com/yellowdolphin/darktable-autolevels-module/releases/download/nightly/autolevels-nightly.zip) et extrayez-le dans un sous-dossier lua de votre répertoire de configuration darktable (par exemple, `~/.config/darktable/lua/contrib/` sous Linux ou `%AppData%\darktable\lua\contrib\` sous Windows).
+Téléchargez [autolevels.zip](https://github.com/yellowdolphin/darktable-autolevels-module/releases/download/nightly/autolevels-nightly.zip) et extrayez-le dans un sous-dossier lua de votre répertoire de configuration darktable (par exemple, `~/.config/darktable/lua/contrib/` sous Linux ou `%LocalAppData%\darktable\lua\contrib\` sous Windows).
 
 ## Utilisation
 

@@ -16,7 +16,7 @@ Ten skrypt automatyzuje podstawową korekcję kolorów przy użyciu krzywych RGB
 
 ## Instalacja
 
-Pobierz [autolevels.zip](https://github.com/yellowdolphin/darktable-autolevels-module/releases/download/nightly/autolevels-nightly.zip) i rozpakuj go w podfolderze lua w katalogu konfiguracyjnym darktable (np. `~/.config/darktable/lua/contrib/` w systemie Linux lub `%AppData%\darktable\lua\contrib\` w systemie Windows).
+Pobierz [autolevels.zip](https://github.com/yellowdolphin/darktable-autolevels-module/releases/download/nightly/autolevels-nightly.zip) i rozpakuj go w podfolderze lua w katalogu konfiguracyjnym darktable (np. `~/.config/darktable/lua/contrib/` w systemie Linux lub `%LocalAppData%\darktable\lua\contrib\` w systemie Windows).
 
 ## Użytkowanie
 

@@ -16,7 +16,7 @@ Dit script automatiseert basale kleurcorrectie met rgb curves. Het voegt geen kl
 
 ## Installatie
 
-Download [autolevels.zip](https://github.com/yellowdolphin/darktable-autolevels-module/releases/download/nightly/autolevels-nightly.zip) en pak het uit in een lua-submap in uw darktable-configuratiemap (bijv. `~/.config/darktable/lua/contrib/` onder Linux of `%AppData%\darktable\lua\contrib\` onder Windows).
+Download [autolevels.zip](https://github.com/yellowdolphin/darktable-autolevels-module/releases/download/nightly/autolevels-nightly.zip) en pak het uit in een lua-submap in uw darktable-configuratiemap (bijv. `~/.config/darktable/lua/contrib/` onder Linux of `%LocalAppData%\darktable\lua\contrib\` onder Windows).
 
 ## Gebruik
 

@@ -16,7 +16,7 @@ Questo script automatizza la correzione del colore di base usando curve RGB. Non
 
 ## Installazione
 
-Scarica [autolevels.zip](https://github.com/yellowdolphin/darktable-autolevels-module/releases/download/nightly/autolevels-nightly.zip) ed estrailo in una sottocartella lua nella tua directory di configurazione di darktable (ad esempio, `~/.config/darktable/lua/contrib/` su Linux o `%AppData%\darktable\lua\contrib\` su Windows).
+Scarica [autolevels.zip](https://github.com/yellowdolphin/darktable-autolevels-module/releases/download/nightly/autolevels-nightly.zip) ed estrailo in una sottocartella lua nella tua directory di configurazione di darktable (ad esempio, `~/.config/darktable/lua/contrib/` su Linux o `%LocalAppData%\darktable\lua\contrib\` su Windows).
 
 ## Utilizzo
 
