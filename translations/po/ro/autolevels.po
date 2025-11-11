@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: autolevels 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-13 16:25+0200\n"
+"POT-Creation-Date: 2025-11-11 21:00+0100\n"
 "PO-Revision-Date: 2025-10-04 16:47+0200\n"
 "Last-Translator: anthropic/claude-sonnet-4.5\n"
 "Language-Team: none\n"
@@ -22,90 +22,99 @@ msgstr ""
 msgid "automatic color correction using AutoLevels"
 msgstr "corecție automată a culorilor folosind AutoLevels"
 
-#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:279
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:177
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:178
+msgid "ONNX model file not found: "
+msgstr "Fișierul modelului ONNX nu a fost găsit: "
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:304
 msgid " curve(s) added"
 msgstr " curbă/curbe adăugate"
 
-#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:294
-msgid "ERROR: selected file is not an ONNX file"
-msgstr "EROARE: fișierul selectat nu este un fișier ONNX"
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:306
+msgid " batches had autolevels errors"
+msgstr " loturi au avut erori de autolevels"
 
-#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:295
-msgid "missing model path"
-msgstr "lipsește calea către model"
-
-#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:296
-msgid "autolevels executable not found"
-msgstr "executabilul autolevels nu a fost găsit"
-
-#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:297
-msgid "autolevels executable not found, make sure it is installed"
-msgstr "executabilul autolevels nu a fost găsit, asigurați-vă că este instalat"
-
-#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:298
-msgid "calling autolevels..."
-msgstr "se apelează autolevels..."
-
-#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:299
-msgid "stopping..."
-msgstr "se oprește..."
-
-#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:305
-msgid "model"
-msgstr "model"
-
-#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:307
-msgid "select model file"
-msgstr "selectează fișierul model"
-
-#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:308
-msgid "select your downloaded .onnx curve model file"
-msgstr "selectează fișierul model de curbă .onnx descărcat"
-
-#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:340
-msgid "batch size"
-msgstr "dimensiune lot"
-
-#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:341
-msgid "choose the number of images to process in one batch"
-msgstr "alege numărul de imagini de procesat într-un lot"
-
-#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:347
-msgid "add AutoLevels curve"
-msgstr "adaugă curbă AutoLevels"
-
-#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:348
-msgid "add rgb curve \"AutoLevels\" to selected images"
-msgstr "adaugă curbă rgb \"AutoLevels\" la imaginile selectate"
-
-#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:369
-msgid "stop"
-msgstr "oprește"
-
-#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:370
-msgid "stop processing"
-msgstr "oprește procesarea"
-
-#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:382
-msgid "help"
-msgstr "ajutor"
-
-#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:383
-msgid "open help page"
-msgstr "deschide pagina de ajutor"
-
-#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:385
-msgid "README.md"
-msgstr "README_ro.md"
-
-#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:397
-msgid "could not open default web browser"
-msgstr "nu s-a putut deschide browserul web implicit"
-
-#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:411
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:318
 msgid " image(s) selected"
 msgstr " imagine/imagini selectate"
 
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:324
+msgid "ERROR: selected file is not an ONNX file"
+msgstr "EROARE: fișierul selectat nu este un fișier ONNX"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:325
+msgid "missing model path"
+msgstr "lipsește calea către model"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:326
+msgid "autolevels executable not found"
+msgstr "executabilul autolevels nu a fost găsit"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:327
+msgid "autolevels executable not found, make sure it is installed"
+msgstr "executabilul autolevels nu a fost găsit, asigurați-vă că este instalat"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:328
+msgid "calling autolevels..."
+msgstr "se apelează autolevels..."
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:329
+msgid "stopping..."
+msgstr "se oprește..."
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:335
+msgid "model"
+msgstr "model"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:337
+msgid "select model file"
+msgstr "selectează fișierul model"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:338
+msgid "select your downloaded .onnx curve model file"
+msgstr "selectează fișierul model de curbă .onnx descărcat"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:376
+msgid "batch size"
+msgstr "dimensiune lot"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:377
+msgid "choose the number of images to process in one batch"
+msgstr "alege numărul de imagini de procesat într-un lot"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:383
+msgid "add AutoLevels curve"
+msgstr "adaugă curbă AutoLevels"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:384
+msgid "add rgb curve \"AutoLevels\" to selected images"
+msgstr "adaugă curbă rgb \"AutoLevels\" la imaginile selectate"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:404
+msgid "stop"
+msgstr "oprește"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:405
+msgid "stop processing"
+msgstr "oprește procesarea"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:417
+msgid "help"
+msgstr "ajutor"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:418
+msgid "open help page"
+msgstr "deschide pagina de ajutor"
+
 #: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:420
+msgid "README.md"
+msgstr "README_ro.md"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:432
+msgid "could not open default web browser"
+msgstr "nu s-a putut deschide browserul web implicit"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:443
 msgid "Specify model file & select images!"
 msgstr "Specifică fișierul model și selectează imaginile!"
