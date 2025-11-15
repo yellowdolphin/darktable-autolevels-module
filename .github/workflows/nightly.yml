@@ -28,14 +28,17 @@ jobs:
           languages=`ls translations/po`
 
           for lang in $languages; do
-            pofile=translations/po/$lang/autolevels.po
-            mofile=translations/mo/$lang/LC_MESSAGES/autolevels.mo
+            podir=translations/po/$lang
+            pofile=$podir/autolevels.po
+            modir=translations/mo/$lang/LC_MESSAGES
+            mofile=$modir/autolevels.mo
             if ! [ -f $pofile ]; then
               echo "$pofile not found"
               continue
             fi
 
             # Compile mo files
+            mkdir -p $modir
             msgfmt --output-file="$mofile" "$pofile"
             if [ $? -ne 0 ]; then
               echo "msgfmt failed with status $?"
