@@ -88,6 +88,19 @@ local widgets = {}
 local lock_status_update = false
 
 
+local function valid_model_path()
+  local model_path = widgets.model_chooser_button.value
+  return type(model_path) == "string" and string.lower(duf.get_filetype(model_path)) == "onnx" and duf.check_if_file_exists(model_path)
+end
+
+
+local function save_model_path()
+  if valid_model_path() then
+    dt.preferences.write("autolevels", "model_path", "string", widgets.model_chooser_button.value)
+  end
+end
+
+
 local function get_autolevels_outsuffix(filename, sidecar)
   -- Return the unique part of sidecar that deviates from filename
   -- Example: filename='foo.jpg', sidecar='/path/to/foo_01.jpg.xmp' -> '_01.jpg.xmp'
@@ -101,7 +114,7 @@ local function run_autolevels(path, outsuffix, fn, model)
   local cmd_str = "autolevels --model "..model.." --folder "..path.." --outfolder "..path
     .." --outsuffix "..outsuffix.." --export darktable "..dt.configuration.version.." -- "..fn
   -- dt.print_log("DEBUG cmd_str: "..cmd_str)
-  dt.control.execute(cmd_str)
+  return dt.control.execute(cmd_str)
 end
 
 
@@ -159,6 +172,13 @@ local function add_autolevels_curves()
   local processed_images = {}
   local quoted_model = ds.sanitize(widgets.model_chooser_button.value)
 
+  -- Check model is still valid
+  if not valid_model_path() then
+    dt.print(_("ONNX model file not found: ") .. quoted_model)
+    widgets.status.label = _("ONNX model file not found: ") .. quoted_model
+    return
+  end
+
   -- Form a batch for each unique (path, duplicate) pair (path, outsuffix)
   local batch_size = get_batch_size()
   local batches = {}
@@ -211,6 +231,7 @@ local function add_autolevels_curves()
   table.sort(sorted_batch_keys)
 
   local num_added_curves = 0
+  local autolevels_failures = 0
   local fallback_used = false
   for __, key in pairs(sorted_batch_keys) do
     local batch_images = batches[key]
@@ -228,7 +249,10 @@ local function add_autolevels_curves()
     if widgets.stop_button.visible == false then
       break
     end
-    run_autolevels(quoted_path, quoted_outsuffix, quoted_fns, quoted_model)
+    local result = run_autolevels(quoted_path, quoted_outsuffix, quoted_fns, quoted_model)
+    if result ~= 0 then
+      autolevels_failures = autolevels_failures + 1
+    end
 
     -- Update the database from the modified XMP files
     for __, image in pairs(batch_images) do
@@ -276,17 +300,23 @@ local function add_autolevels_curves()
   dt.print_log(#processed_images .. "/" .. #images .. " images processed, " .. #selected_images .. " remain selected")
 
   lock_status_update = true  --prevent selection-changed hook from overwriting this:
-  widgets.status.label = num_added_curves .. _(" curve(s) added")
+  if autolevels_failures == 0 then
+    widgets.status.label = num_added_curves .. _(" curve(s) added")
+  else
+    widgets.status.label = autolevels_failures .. _(" batches had autolevels errors")
+  end
   widgets.stop_button.visible = false
   widgets.add_curve_button.visible = true
 end
 
 
-local function save_model_path()
-  if widgets.model_chooser_button.value == nil then
-    return
+local function update_selection_status()
+  -- Updates status field with the number of selected images
+  if lock_status_update then
+    lock_status_update = false
+  else
+    widgets.status.label = #dt.gui.action_images .. _(" image(s) selected")
   end
-  dt.preferences.write("autolevels", "model_path", "string", widgets.model_chooser_button.value)
 end
 
 
@@ -308,19 +338,25 @@ widgets.model_chooser_button = dt.new_widget("file_chooser_button"){
   tooltip = _("select your downloaded .onnx curve model file"),
   is_directory = false,
   changed_callback = function(__)
-    local model_path = widgets.model_chooser_button.value
-    if not model_path then
+    if valid_model_path() then
+      save_model_path()
+      update_selection_status()
       return
     end
-    if string.lower(duf.get_filetype(model_path)) ~= "onnx" then
+
+    -- Give feedback if invalid
+    model_path = widgets.model_chooser_button.value
+    if not model_path or #model_path == 0 then
+      dt.print_log("model_choose_botton changed_callback called with invalid path")
+      -- reset model_path to last valid string or nil
+      widgets.model_chooser_button.value = dt.preferences.read("autolevels", "model_path", "string")
+    elseif string.lower(duf.get_filetype(model_path)) ~= "onnx" then
       dt.print(msg_filetype_error)
       dt.print_error(model_path .. " is not an ONNX file")
       -- reset model_path to last valid string or nil
       widgets.model_chooser_button.value = dt.preferences.read("autolevels", "model_path", "string")
       return
     end
-    save_model_path()
-    update_selection_status()
   end
 }
 if dt.preferences.read("autolevels", "model_path", "string") then
@@ -347,16 +383,15 @@ widgets.add_curve_button = dt.new_widget("button"){
   label = _("add AutoLevels curve"),
   tooltip = _('add rgb curve "AutoLevels" to selected images'),
   clicked_callback = function(__)
-    widgets.add_curve_button.visible = false
-    widgets.stop_button.visible = true
-    local model_path = widgets.model_chooser_button.value
-    if not model_path or #model_path == 0 then
+    if not valid_model_path() then
       widgets.status.label = msg_missing_model
       dt.print(msg_missing_model)
-    elseif duf.check_if_bin_exists('autolevels') == false then
+    elseif not duf.check_if_bin_exists('autolevels') then
       widgets.status.label = msg_autolevels_not_found
       dt.print(msg_autolevels_not_found_long)
     else
+      widgets.add_curve_button.visible = false
+      widgets.stop_button.visible = true
       widgets.status.label = msg_calling_autolevels
       add_autolevels_curves()
     end
@@ -402,19 +437,7 @@ widgets.help_button = dt.new_widget("button"){
 
 -- Status field
 widgets.status = dt.new_widget("label"){label = "", halign = "start"}
-
-local function update_selection_status()
-  -- Updates status field with the number of selected images
-  if lock_status_update then 
-    lock_status_update = false
-  else
-    widgets.status.label = #dt.gui.action_images .. _(" image(s) selected")
-  end
-end
-
-
--- Initialize status field
-if widgets.model_chooser_button.value and #widgets.model_chooser_button.value > 0 then
+if valid_model_path() then
   update_selection_status()
 else
   widgets.status.label = _("Specify model file & select images!")

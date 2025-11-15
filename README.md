@@ -50,7 +50,7 @@ If you want to call AutoLevels with the `--export darktable` option outside of d
 
 ## Additional Software Required
 
-- Python 3.9 or later
+- Python 3.9, 3.10, 3.11, 3.12, or 3.13
 
 - AutoLevels
 

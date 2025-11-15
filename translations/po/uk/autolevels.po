@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: autolevels 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-13 16:25+0200\n"
+"POT-Creation-Date: 2025-11-11 21:00+0100\n"
 "PO-Revision-Date: 2025-10-04 16:47+0200\n"
 "Last-Translator: anthropic/claude-sonnet-4.5\n"
 "Language-Team: none\n"
@@ -22,91 +22,100 @@ msgstr ""
 msgid "automatic color correction using AutoLevels"
 msgstr "автоматична корекція кольору за допомогою AutoLevels"
 
-#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:279
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:177
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:178
+msgid "ONNX model file not found: "
+msgstr "файл моделі ONNX не знайдено: "
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:304
 msgid " curve(s) added"
 msgstr " криву(і) додано"
 
-#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:294
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:306
+msgid " batches had autolevels errors"
+msgstr " партіях виникли помилки автокорекції рівнів"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:318
+msgid " image(s) selected"
+msgstr " зображення обрано"
+
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:324
 msgid "ERROR: selected file is not an ONNX file"
 msgstr "ПОМИЛКА: обраний файл не є файлом ONNX"
 
-#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:295
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:325
 msgid "missing model path"
 msgstr "відсутній шлях до моделі"
 
-#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:296
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:326
 msgid "autolevels executable not found"
 msgstr "виконуваний файл autolevels не знайдено"
 
-#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:297
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:327
 msgid "autolevels executable not found, make sure it is installed"
 msgstr ""
 "виконуваний файл autolevels не знайдено, переконайтеся, що його встановлено"
 
-#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:298
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:328
 msgid "calling autolevels..."
 msgstr "виклик autolevels..."
 
-#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:299
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:329
 msgid "stopping..."
 msgstr "зупинка..."
 
-#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:305
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:335
 msgid "model"
 msgstr "модель"
 
-#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:307
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:337
 msgid "select model file"
 msgstr "виберіть файл моделі"
 
-#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:308
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:338
 msgid "select your downloaded .onnx curve model file"
 msgstr "виберіть завантажений файл моделі кривої .onnx"
 
-#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:340
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:376
 msgid "batch size"
 msgstr "розмір пакета"
 
-#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:341
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:377
 msgid "choose the number of images to process in one batch"
 msgstr "виберіть кількість зображень для обробки в одному пакеті"
 
-#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:347
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:383
 msgid "add AutoLevels curve"
 msgstr "додати криву AutoLevels"
 
-#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:348
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:384
 msgid "add rgb curve \"AutoLevels\" to selected images"
 msgstr "додати rgb криву \"AutoLevels\" до обраних зображень"
 
-#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:369
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:404
 msgid "stop"
 msgstr "зупинити"
 
-#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:370
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:405
 msgid "stop processing"
 msgstr "зупинити обробку"
 
-#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:382
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:417
 msgid "help"
 msgstr "довідка"
 
-#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:383
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:418
 msgid "open help page"
 msgstr "відкрити сторінку довідки"
 
-#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:385
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:420
 msgid "README.md"
 msgstr "README_uk.md"
 
-#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:397
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:432
 msgid "could not open default web browser"
 msgstr "не вдалося відкрити веб-браузер за замовчуванням"
 
-#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:411
-msgid " image(s) selected"
-msgstr " зображення обрано"
-
-#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:420
+#: /home/wanko/darktable/lua/darktable-autolevels-module/./autolevels.lua:443
 msgid "Specify model file & select images!"
 msgstr "Вкажіть файл моделі та оберіть зображення!"
