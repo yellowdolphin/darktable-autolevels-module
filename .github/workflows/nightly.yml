@@ -32,6 +32,19 @@ jobs:
               continue
             fi
 
+            # Compile mo files
+            msgfmt --output-file="$mofile" "$pofile"
+            if [ $? -ne 0 ]; then
+              echo "msgfmt failed with status $?"
+              exit 1
+            fi
+            if [ ! -f "$mofile" ]; then
+              echo "msgfmt failed to create $mofile"
+              exit 1
+            fi
+            mkdir -p dist/locale/$lang/LC_MESSAGES
+            cp -p $mofile dist/locale/$lang/LC_MESSAGES/
+
             # Check "README.md" has been translated to "README_{lang}.md"
             if [ `grep -ce 'msgstr "README_'${lang}'.md"' $pofile` -ne 1 ]; then
               echo "[WARNING] 'README.md' string not properly translated in $pofile -- update it and run again!"
@@ -42,9 +55,6 @@ jobs:
               echo "missing README_$lang.md"
             fi
 
-            # Copy mo files
-            mkdir -p dist/locale/$lang/LC_MESSAGES
-            cp -p $mofile dist/locale/$lang/LC_MESSAGES/
           done
 
           cd dist
