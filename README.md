@@ -20,6 +20,8 @@ This script automates basic color correction using RGB curves. It does not add a
 
 * For the translated version, download [autolevels.zip](https://github.com/yellowdolphin/darktable-autolevels-module/releases/download/nightly/autolevels-nightly.zip) and extract it inside a lua subfolder in your darktable configuration directory (e.g. `~/.config/darktable/lua/contrib/` under Linux or `%LocalAppData%\darktable\lua\contrib\` under Windows).
 
+* Install additional required software, see [below](https://github.com/yellowdolphin/darktable-autolevels-module?tab=readme-ov-file#additional-software-required)
+
 ## Usage
 
 * Start this script in the _scripts_ module in the lighttable view. An _AutoLevels_ module will appear in the same panel.
@@ -68,6 +70,14 @@ This will automatically install AutoLevels and the following dependencies:
 - opencv-python
 - h5py
 - onnxruntime
+
+### Windows 10 only
+
+The latest versions of onnxruntime don't support Windows 10. To use AutoLevels in darktable on Windows 10, install Python version 3.13 or earlier (but not before version 3.9), then install autolevels and onnxruntime version 1.20.1:
+
+```bash
+pip install autolevels onnxruntime==1.20.1
+```
 
 ## Limitations
 
