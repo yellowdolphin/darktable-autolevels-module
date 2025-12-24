@@ -38,6 +38,8 @@ This script automates basic color correction using RGB curves. It does not add a
 
 You might notice that the _rgb curve_ instance created by AutoLevels is applied right before the _input color profile_ module. This is where the channel-wise color correction works most effectively for JPEGs and most HDR images (RAW formats are not yet supported by the script). If you create a new _rgb curve_ instance, this will appear at the usual place in the pipeline.
 
+**Pro tip**: If you want to process scanned photos, disable the scanner's color profile in the scan program, import scanned images as raw 48-bit PNG or TIFF files, find your scanner's ICC files and copy them into a subfolder `~/.config/darktable/color/in` (Linux) or `%LocalAppData%\darktable\lua\contrib\` (Windows). Create this folder if it does not exist yet. In the darkroom, open the _input color profile_ module and select the correct scanner profile there. This will yield much better results than starting from a JPEG in sRGB color space.
+
 ### What it Does
 
 Under the hood, the Lua script calls `autolevels` with the `--export darktable <version>` argument:
